@@ -6,6 +6,7 @@ Redesign af GivVidere-appen (bestil afhentning af møbler / aflevér selv) i rod
 - Prototyper (Claude Design-lærreder):
   - "GivVidere – Bestil afhentning" – donorens webformular, 5 skærme (trin 1–3, kvittering, aflevér selv)
   - "Donationer til genbrug - backend" – admin-siden (tidligere "GivVidere – Admin")
+- Live: https://lindsteen.github.io/donationsprototype/ (repo `lindsteen/donationsprototype`). Filerne fra `output/` ligger i roden: formularen er forsiden, admin er `/admin.html`.
 
 ## Filer
 
@@ -28,6 +29,7 @@ Formular og admin er prototyper med testdata: der sendes ikke noget nogen steder
 
 ### 2026-11-06
 
+- Uploadet til `lindsteen/donationsprototype` (GitHub Pages). Forsiden er nu formularen; admin er flyttet til `/admin.html`.
 - Formularen er responsiv: fra 768 px går header og footer i fuld bredde, indholdet står i en centreret kolonne (maks. 760 px), og knapperne står nederst til højre. Mobilvisningen er uændret.
 - Formularen: Støt-knappen og burgermenuen i headeren er fjernet.
 - Formular, trin 1: "Næste" og "Din donation" skjules, når der ikke er valgt noget.
