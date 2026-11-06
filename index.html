@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anmodninger om afhentning – Røde Kors Genbrug</title>
+<style>
+/* ==========================================================================
+   Røde Kors – prototype-stylesheet
+   Kilde: Røde Kors Digitalt Designsystem (Figma). Brug KUN disse variabler.
+   Platform vælges med en klasse på <body>:
+     .rk-dk      = rodekors.dk
+     .rk-mrk     = Mit Røde Kors (MRK)
+     .rk-anden   = andre platforme (MRK-stil uden header, sidemenu og footer)
+   ========================================================================== */
+
+/* ---------- 1. Primitiver (farvepalet) ---------- */
+:root {
+  --rk-red-50: #FEF5F5;  --rk-red-100: #FFF0F0; --rk-red-200: #FFDEDE;
+  --rk-red-300: #FFC3C3; --rk-red-400: #FF9999; --rk-red-500: #FF5F60;
+  --rk-red-600: #E30A0B; --rk-red-700: #CE0708; --rk-red-800: #AA0A0B; --rk-red-900: #8C1011;
+
+  --rk-grey-0: #FFFFFF;  --rk-grey-50: #F7F7F7; --rk-grey-100: #F5F5F6;
+  --rk-grey-200: #E7E5E7; --rk-grey-300: #C9C5C5; --rk-grey-400: #989598;
+  --rk-grey-500: #767277; --rk-grey-600: #5A585B; --rk-grey-700: #484748;
+  --rk-grey-800: #373538; --rk-grey-900: #000000;
+
+  --rk-sage-50: #F7F7F5;  --rk-sage-100: #E4E3DD; --rk-sage-200: #CBC6BD;
+  --rk-sage-300: #A4998C; --rk-sage-500: #8D8070; --rk-sage-600: #73665B;
+  --rk-sage-700: #5D524B; --rk-sage-800: #514742; --rk-sage-900: #473F3C;
+
+  --rk-green-500: #68AC12; --rk-yellow-500: #FCE400;
+
+  /* Typografi: Gotham hvis den er installeret, ellers Verdana */
+  --rk-font: "Gotham", "Gotham Book", Verdana, sans-serif;
+
+  /* Afstande (4-px-skala) */
+  --rk-s-1: 4px; --rk-s-2: 8px; --rk-s-3: 12px; --rk-s-4: 16px; --rk-s-5: 24px;
+  --rk-s-6: 32px; --rk-s-7: 40px; --rk-s-8: 48px; --rk-s-9: 64px; --rk-s-10: 80px; --rk-s-11: 96px;
+
+  --rk-radius-card: 8px;
+  --rk-radius-modal: 12px;
+  --rk-shadow: 0 2px 12px rgba(0, 0, 0, .08);
+}
+
+/* ---------- 2. Roller (semantiske farver) – fælles ---------- */
+:root {
+  --rk-text: var(--rk-grey-800);
+  --rk-text-subtle: var(--rk-grey-500);
+  --rk-text-on-primary: var(--rk-grey-0);
+  --rk-text-meta: var(--rk-sage-600);
+  --rk-text-muted: var(--rk-sage-700);
+  --rk-link: var(--rk-red-600);
+  --rk-primary: var(--rk-red-600);
+  --rk-primary-hover: var(--rk-red-800);
+  --rk-primary-pressed: var(--rk-red-900);
+  --rk-surface: var(--rk-grey-0);
+  --rk-error: var(--rk-red-600);
+  --rk-success: var(--rk-green-500);
+  --rk-warning: var(--rk-yellow-500);
+}
+
+/* ---------- 3. Platforme ---------- */
+.rk-dk {
+  --rk-page-bg: var(--rk-grey-0);
+  --rk-header-bg: var(--rk-red-50);
+  --rk-surface-subtle: var(--rk-red-50);
+  --rk-surface-soft: var(--rk-grey-100);
+  --rk-border: var(--rk-grey-300);
+  --rk-border-strong: var(--rk-grey-400);
+  --rk-footer-bg: var(--rk-grey-100);
+  --rk-btn-radius: 4px; --rk-btn-weight: 700; --rk-btn-pad: 16px 32px; --rk-btn-height: 56px;
+  --rk-field-radius: 4px;
+  --rk-h1: 48px; --rk-h2: 32px; --rk-h3: 24px; --rk-h4: 20px; --rk-h5: 18px;
+  --rk-lead: 18px; --rk-body: 16px; --rk-label: 14px; --rk-small: 12px;
+}
+.rk-mrk, .rk-anden {
+  --rk-page-bg: var(--rk-sage-50);
+  --rk-header-bg: var(--rk-grey-0);
+  --rk-surface-subtle: var(--rk-sage-50);
+  --rk-surface-soft: var(--rk-sage-100);
+  --rk-border: var(--rk-grey-200);
+  --rk-border-strong: var(--rk-grey-800);
+  --rk-footer-bg: var(--rk-grey-0);
+  --rk-btn-radius: 30px; --rk-btn-weight: 400; --rk-btn-pad: 12px 32px; --rk-btn-height: 46px;
+  --rk-field-radius: 4px;
+  --rk-h1: 44px; --rk-h2: 28px; --rk-h3: 22px; --rk-h4: 20px; --rk-h5: 18px;
+  --rk-lead: 18px; --rk-body: 16px; --rk-label: 14px; --rk-small: 12px;
+}
+@media (max-width: 767px) {
+  .rk-dk  { --rk-h1: 32px; --rk-h2: 26px; --rk-h3: 20px; }
+  .rk-mrk, .rk-anden { --rk-h1: 32px; --rk-h2: 26px; }
+}
+
+/* ---------- 4. Grundlag ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--rk-font); font-size: var(--rk-body); line-height: 1.5;
+  color: var(--rk-text); background: var(--rk-page-bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5 { margin: 0 0 var(--rk-s-4); font-weight: 700; line-height: 1.3; color: var(--rk-text); }
+h1 { font-size: var(--rk-h1); } h2 { font-size: var(--rk-h2); } h3 { font-size: var(--rk-h3); }
+h4 { font-size: var(--rk-h4); } h5 { font-size: var(--rk-h5); }
+p { margin: 0 0 var(--rk-s-4); }
+.rk-lead { font-size: var(--rk-lead); line-height: 1.5; }
+.rk-small { font-size: var(--rk-label); }
+.rk-meta { font-size: var(--rk-small); color: var(--rk-text-meta); text-transform: uppercase; letter-spacing: .02em; }
+.rk-meta b { font-weight: 700; }
+a { color: var(--rk-link); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: var(--rk-primary-hover); }
+img { max-width: 100%; display: block; }
+svg.rk-icon { width: 24px; height: 24px; flex: none; color: currentColor; }
+:focus-visible { outline: 2px solid var(--rk-primary); outline-offset: 2px; }
+.rk-visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Layout */
+.rk-container { max-width: 1280px; margin: 0 auto; padding: 0 var(--rk-s-5); }
+.rk-reading { max-width: 760px; }
+.rk-section { padding: var(--rk-s-9) 0; }
+.rk-band { background: var(--rk-surface-soft); }
+.rk-stack > * + * { margin-top: var(--rk-s-4); }
+.rk-grid { display: grid; gap: var(--rk-s-5); }
+.rk-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rk-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rk-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 900px) { .rk-grid-3, .rk-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .rk-grid-2, .rk-grid-3, .rk-grid-4 { grid-template-columns: 1fr; } }
+.rk-center { text-align: center; }
+
+/* ---------- 5. Knapper ---------- */
+.rk-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--rk-s-2);
+  min-height: var(--rk-btn-height); padding: var(--rk-btn-pad);
+  border-radius: var(--rk-btn-radius); border: 1px solid transparent;
+  font: inherit; font-size: var(--rk-body); font-weight: var(--rk-btn-weight); line-height: 1.2;
+  text-decoration: none; cursor: pointer; transition: background .15s, color .15s, border-color .15s;
+}
+.rk-btn svg { width: 20px; height: 20px; }
+.rk-btn--primary { background: var(--rk-primary); color: var(--rk-text-on-primary); }
+.rk-btn--primary:hover { background: var(--rk-primary-hover); color: var(--rk-text-on-primary); }
+.rk-btn--primary:active { background: var(--rk-primary-pressed); }
+.rk-btn--secondary { background: var(--rk-surface); color: var(--rk-primary); border-color: var(--rk-primary); }
+.rk-btn--secondary:hover { background: var(--rk-red-50); color: var(--rk-primary-hover); border-color: var(--rk-primary-hover); }
+.rk-btn--tertiary { background: var(--rk-surface); color: var(--rk-text); border-color: var(--rk-border-strong); }
+.rk-btn--tertiary:hover { background: var(--rk-grey-100); color: var(--rk-text); }
+.rk-btn--small { min-height: 36px; padding: 6px 20px; font-size: var(--rk-label); }
+.rk-btn[disabled], .rk-btn--disabled { background: var(--rk-grey-200); color: var(--rk-grey-500); border-color: var(--rk-grey-200); cursor: not-allowed; }
+.rk-btn-row { display: flex; flex-wrap: wrap; gap: var(--rk-s-4); align-items: center; }
+.rk-textlink { display: inline-flex; align-items: center; gap: var(--rk-s-2); color: var(--rk-text); }
+
+/* Indholdslink (hvid "pille" med rød pil) – MRK */
+.rk-contentlink {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--rk-s-4);
+  padding: 16px 32px; background: var(--rk-surface); border-radius: 30px;
+  color: var(--rk-text); text-decoration: none;
+}
+.rk-contentlink svg { color: var(--rk-primary); width: 20px; height: 20px; }
+.rk-contentlink:hover { color: var(--rk-text); box-shadow: var(--rk-shadow); }
+
+/* Fil-download */
+.rk-download {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--rk-s-4);
+  padding: 16px 32px; background: var(--rk-sage-100); border-radius: var(--rk-radius-card); color: var(--rk-text);
+}
+.rk-download a { display: inline-flex; align-items: center; gap: var(--rk-s-2); color: var(--rk-text); }
+
+/* ---------- 6. Formularer ---------- */
+.rk-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--rk-s-5); }
+.rk-label { font-size: var(--rk-label); font-weight: 700; }
+.rk-help { font-size: var(--rk-label); margin-top: -2px; }
+.rk-input, .rk-select, .rk-textarea {
+  width: 100%; min-height: 48px; padding: 12px 16px; font: inherit; font-size: var(--rk-body);
+  color: var(--rk-text); background: var(--rk-surface);
+  border: 1px solid var(--rk-border); border-radius: var(--rk-field-radius);
+}
+.rk-mrk .rk-input, .rk-mrk .rk-select, .rk-mrk .rk-textarea,
+.rk-anden .rk-input, .rk-anden .rk-select, .rk-anden .rk-textarea { border-color: var(--rk-grey-200); }
+.rk-textarea { min-height: 120px; resize: vertical; }
+.rk-input::placeholder, .rk-textarea::placeholder { color: var(--rk-text-subtle); }
+.rk-input:focus, .rk-select:focus, .rk-textarea:focus { outline: none; border-color: var(--rk-grey-800); box-shadow: 0 0 0 1px var(--rk-grey-800); }
+.rk-input[readonly] { background: var(--rk-sage-100); border-color: var(--rk-sage-100); }
+.rk-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M3.27 7.64L12 16.36l8.73-8.72' stroke='%23373538' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 48px; }
+.rk-input-wrap { position: relative; }
+.rk-input-wrap > svg { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; }
+.rk-field--error .rk-input, .rk-field--error .rk-textarea { border-color: var(--rk-error); }
+.rk-field--error .rk-error-text { color: var(--rk-error); font-size: var(--rk-label); }
+.rk-choice { display: flex; align-items: center; gap: var(--rk-s-3); padding: 6px 0; cursor: pointer; }
+.rk-choice input { width: 22px; height: 22px; margin: 0; accent-color: var(--rk-primary); flex: none; }
+.rk-mrk .rk-choice input[type="checkbox"], .rk-anden .rk-choice input[type="checkbox"] { accent-color: var(--rk-grey-800); }
+fieldset.rk-fieldset { border: 0; padding: 0; margin: 0 0 var(--rk-s-5); }
+fieldset.rk-fieldset legend { font-size: var(--rk-label); font-weight: 700; margin-bottom: var(--rk-s-2); padding: 0; }
+
+/* Beløbsvælger (Støt) – rodekors.dk */
+.rk-amounts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--rk-s-2); }
+.rk-amounts label { position: relative; }
+.rk-amounts input { position: absolute; opacity: 0; }
+.rk-amounts span { display: flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid var(--rk-border); border-radius: 4px; background: var(--rk-surface); cursor: pointer; }
+.rk-amounts input:checked + span { background: var(--rk-primary); border-color: var(--rk-primary); color: var(--rk-text-on-primary); font-weight: 700; }
+.rk-amounts input:focus-visible + span { outline: 2px solid var(--rk-primary); outline-offset: 2px; }
+.rk-segmented { display: inline-flex; border: 1px solid var(--rk-border); border-radius: 4px; overflow: hidden; }
+.rk-segmented label { position: relative; }
+.rk-segmented input { position: absolute; opacity: 0; }
+.rk-segmented span { display: block; padding: 12px 24px; cursor: pointer; background: var(--rk-surface); }
+.rk-segmented input:checked + span { background: var(--rk-primary); color: var(--rk-text-on-primary); font-weight: 700; }
+
+/* ---------- 7. Kort og indhold ---------- */
+.rk-card { background: var(--rk-surface); border-radius: var(--rk-radius-card); overflow: hidden; display: flex; flex-direction: column; color: var(--rk-text); text-decoration: none; }
+.rk-card:hover { box-shadow: var(--rk-shadow); color: var(--rk-text); }
+.rk-card__img { aspect-ratio: 3 / 2; object-fit: cover; width: 100%; }
+.rk-card__body { padding: var(--rk-s-5); display: flex; flex-direction: column; gap: var(--rk-s-2); }
+.rk-card__title { font-size: var(--rk-h4); font-weight: 700; line-height: 1.3; margin: 0; }
+.rk-feature { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rk-s-6); align-items: center; background: var(--rk-surface); border-radius: var(--rk-radius-card); padding: var(--rk-s-5); }
+.rk-feature img { border-radius: var(--rk-radius-card); width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+@media (max-width: 767px) { .rk-feature { grid-template-columns: 1fr; } }
+.rk-factbox { background: var(--rk-red-200); border-radius: var(--rk-radius-card); padding: var(--rk-s-6) var(--rk-s-6) var(--rk-s-7); }
+.rk-factbox h3 { font-size: var(--rk-h4); }
+.rk-quote { color: var(--rk-primary); font-size: 22px; font-style: italic; line-height: 1.4; margin: var(--rk-s-6) 0; padding-left: var(--rk-s-6); }
+.rk-quote cite { display: block; margin-top: var(--rk-s-2); font-size: var(--rk-label); font-style: normal; color: var(--rk-text); }
+.rk-badge { display: inline-block; padding: 2px 6px; background: var(--rk-red-200); color: var(--rk-text); font-size: var(--rk-small); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; border-radius: 2px; }
+.rk-contact { background: var(--rk-sage-100); border-radius: var(--rk-radius-card); padding: var(--rk-s-5) var(--rk-s-4); text-align: center; display: flex; flex-direction: column; gap: var(--rk-s-2); align-items: center; }
+.rk-avatar { width: 84px; height: 84px; border-radius: 50%; background: var(--rk-grey-100); display: grid; place-items: center; overflow: hidden; color: var(--rk-grey-400); }
+.rk-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.rk-pill { display: flex; align-items: center; gap: var(--rk-s-3); width: 100%; padding: 10px 16px; background: var(--rk-surface); border-radius: 30px; color: var(--rk-text); text-decoration: none; }
+
+/* Genvej (MRK) */
+.rk-shortcut { display: flex; align-items: center; gap: var(--rk-s-3); padding: 8px; background: var(--rk-surface); border-radius: var(--rk-radius-card); color: var(--rk-text); }
+.rk-shortcut__icon { width: 48px; height: 48px; border-radius: var(--rk-radius-card); background: var(--rk-red-50); color: var(--rk-primary); display: grid; place-items: center; flex: none; }
+.rk-shortcut__icon svg { width: 26px; height: 26px; }
+
+/* Listerække (MRK, fx frivillige) */
+.rk-row { display: grid; grid-template-columns: auto 1.4fr 1.2fr 1fr auto; gap: var(--rk-s-4); align-items: center; padding: var(--rk-s-4); background: var(--rk-surface); border-radius: var(--rk-radius-card); }
+.rk-row .rk-avatar { width: 70px; height: 70px; }
+@media (max-width: 900px) { .rk-row { grid-template-columns: auto 1fr; } .rk-row > :nth-child(n+3) { grid-column: 2; } }
+
+/* Harmonika */
+.rk-accordion details { border-bottom: 1px solid var(--rk-border); }
+.rk-accordion details:first-of-type { border-top: 1px solid var(--rk-border); }
+.rk-accordion summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; }
+.rk-accordion summary::-webkit-details-marker { display: none; }
+.rk-accordion summary::after { content: "+"; color: var(--rk-primary); font-size: 24px; line-height: 1; }
+.rk-accordion details[open] summary::after { content: "–"; }
+.rk-accordion .rk-accordion__body { padding: 0 0 var(--rk-s-4); }
+
+/* Faner */
+.rk-tabs { display: flex; gap: var(--rk-s-6); border-bottom: 1px solid var(--rk-border); margin-bottom: var(--rk-s-6); overflow-x: auto; }
+.rk-tabs a { padding: 8px 0 10px; color: var(--rk-text); text-decoration: none; border-bottom: 3px solid transparent; white-space: nowrap; }
+.rk-tabs a[aria-current="page"] { color: var(--rk-primary); font-weight: 700; border-bottom-color: var(--rk-primary); }
+
+/* Brødkrumme */
+.rk-breadcrumb { font-size: var(--rk-small); color: var(--rk-text); display: flex; flex-wrap: wrap; gap: 6px; margin: var(--rk-s-5) 0 var(--rk-s-8); }
+.rk-breadcrumb a { color: var(--rk-text-subtle); text-decoration: none; }
+.rk-breadcrumb span[aria-current] { font-weight: 700; }
+
+/* Billede-pladsholder (når der ikke findes et sikkert stockfoto) */
+.rk-img-placeholder { background: var(--rk-sage-100); color: var(--rk-sage-700); display: grid; place-items: center; text-align: center; padding: var(--rk-s-5); font-size: var(--rk-label); aspect-ratio: 3 / 2; border-radius: var(--rk-radius-card); }
+
+/* Modal */
+.rk-modal-backdrop { position: fixed; inset: 0; background: rgba(55, 53, 56, .55); display: grid; place-items: center; padding: var(--rk-s-4); z-index: 50; }
+.rk-modal { background: var(--rk-surface); border-radius: var(--rk-radius-modal); padding: var(--rk-s-6) var(--rk-s-6) var(--rk-s-9); width: min(710px, 100%); position: relative; }
+.rk-modal h2 { font-size: 22px; }
+.rk-modal__close { position: absolute; top: 20px; right: 20px; background: none; border: 0; padding: 6px; cursor: pointer; color: var(--rk-text); }
+
+/* Fremskridt (trin) – rodekors.dk formularer */
+.rk-steps { display: flex; justify-content: space-between; list-style: none; padding: 0; margin: 0 0 var(--rk-s-8); counter-reset: s; }
+.rk-steps li { flex: 1; text-align: center; position: relative; font-size: var(--rk-label); }
+.rk-steps li::before { counter-increment: s; content: counter(s); display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto 8px; border-radius: 50%; border: 1px solid var(--rk-grey-400); background: var(--rk-surface); position: relative; z-index: 1; }
+.rk-steps li + li::after { content: ""; position: absolute; top: 22px; right: 50%; width: 100%; height: 2px; background: var(--rk-grey-300); }
+.rk-steps li.is-done::before { content: "✓"; background: var(--rk-primary); border-color: var(--rk-primary); color: #fff; }
+.rk-steps li.is-current::before { background: var(--rk-primary); border-color: var(--rk-primary); color: #fff; font-weight: 700; }
+.rk-steps li.is-current { font-weight: 700; }
+.rk-steps li.is-done + li::after, .rk-steps li.is-current::after { background: var(--rk-primary); }
+
+/* ---------- 8. rodekors.dk: topbar, header, hero, footer (fra rkdk/Header-rkdk og rkdk/Footer) ---------- */
+.rk-dk-topbar { background: var(--rk-surface); font-size: var(--rk-body); }
+.rk-dk-topbar ul { list-style: none; display: flex; justify-content: flex-end; align-items: center; gap: var(--rk-s-6); margin: 0; padding: 6px 0; min-height: 40px; }
+.rk-dk-topbar a { color: var(--rk-text); text-decoration: none; }
+.rk-dk-topbar a:hover { text-decoration: underline; }
+.rk-dk-lang { display: inline-flex; align-items: center; gap: 8px; padding: 3px 10px 3px 14px; border: 1px solid var(--rk-grey-300); border-radius: 20px; }
+.rk-dk-lang svg { width: 20px; height: 20px; }
+/* Headerbåndet er lyserødt; korset "hænger" ned under båndets bund (ca. 23 px) */
+.rk-dk-header { position: relative; background: var(--rk-header-bg); z-index: 10; }
+.rk-dk-header__inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--rk-s-5); min-height: 76px; }
+.rk-dk-nav ul { list-style: none; display: flex; gap: var(--rk-s-5); margin: 0; padding: 0; }
+.rk-dk-nav a { color: var(--rk-text); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: var(--rk-body); }
+.rk-dk-nav a svg { width: 18px; height: 18px; }
+.rk-dk-nav a:hover { text-decoration: underline; }
+.rk-dk-logo { position: absolute; left: 50%; top: 30px; width: 68px; height: 68px; transform: translateX(-50%); z-index: 11; }
+.rk-dk-logo .rk-logo { width: 68px; height: 68px; }
+.rk-dk-header__tools { display: flex; justify-content: flex-end; gap: var(--rk-s-4); align-items: center; }
+.rk-dk-search { display: flex; align-items: center; gap: 10px; background: var(--rk-surface); border: 1px solid var(--rk-grey-300); border-radius: 4px; padding: 0 14px; height: 42px; width: 256px; color: var(--rk-text-subtle); font-size: var(--rk-label); }
+.rk-dk-search svg { width: 18px; height: 18px; color: var(--rk-text); }
+.rk-dk-header .rk-btn--primary { min-height: 42px; min-width: 94px; padding: 8px 24px; font-size: var(--rk-label); }
+.rk-dk-burger { display: none; background: none; border: 0; padding: 4px; color: var(--rk-text); }
+.rk-dk-mobile-stoet { display: none !important; }
+@media (max-width: 1023px) {
+  .rk-dk-topbar, .rk-dk-nav, .rk-dk-search, .rk-dk-header__tools .rk-btn--primary { display: none; }
+  .rk-dk-mobile-stoet { display: inline-flex !important; }
+  .rk-dk-header__inner { min-height: 56px; }
+  .rk-dk-logo { top: 22px; width: 48px; height: 48px; }
+  .rk-dk-logo .rk-logo { width: 48px; height: 48px; }
+  .rk-dk-burger { display: inline-flex; }
+}
+/* Hero: stort foto og hvid boks, der overlapper fotoets bund (rkdk/Content-navigation-rkdk, Type=Hero) */
+.rk-dk-hero { position: relative; }
+.rk-dk-hero__img, .rk-dk-hero > .rk-img-placeholder { width: 100%; height: 520px; object-fit: cover; aspect-ratio: auto; border-radius: 0; }
+.rk-dk-hero__box { position: relative; margin: -110px auto 0; max-width: 1160px; background: var(--rk-surface); padding: var(--rk-s-7) var(--rk-s-9) var(--rk-s-8); text-align: center; box-shadow: var(--rk-shadow); }
+.rk-dk-hero__box h1 { font-size: var(--rk-h1); margin-bottom: var(--rk-s-5); }
+.rk-dk-hero__box .rk-lead { font-size: 20px; max-width: 860px; margin: 0 auto var(--rk-s-6); }
+.rk-btn--hero { min-width: min(480px, 100%); min-height: 60px; font-size: 20px; font-weight: 400; }
+@media (max-width: 767px) { .rk-dk-hero__img, .rk-dk-hero > .rk-img-placeholder { height: 280px; } .rk-dk-hero__box { margin: -60px var(--rk-s-4) 0; padding: var(--rk-s-5); } .rk-btn--hero { min-width: 100%; } }
+/* Footer (rkdk/Footer) */
+.rk-dk-footer { background: var(--rk-grey-50); padding: var(--rk-s-9) 0 var(--rk-s-5); margin-top: var(--rk-s-10); font-size: var(--rk-label); }
+.rk-dk-footer__grid { display: grid; grid-template-columns: 156px 160px 1px 1fr 1fr; gap: var(--rk-s-8); }
+.rk-dk-footer__divider { background: var(--rk-grey-200); }
+.rk-dk-footer h2 { font-size: var(--rk-body); font-weight: 700; margin: 0 0 4px; }
+.rk-dk-footer p { margin: 0 0 var(--rk-s-5); line-height: 1.5; }
+.rk-dk-footer a { color: var(--rk-text); text-decoration: none; }
+.rk-dk-footer a:hover { text-decoration: underline; }
+.rk-dk-footer__links h2 { color: var(--rk-primary); text-transform: uppercase; margin-bottom: var(--rk-s-4); }
+.rk-dk-footer__links ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--rk-s-4); font-size: var(--rk-body); }
+.rk-dk-footer__bottom { border-top: 1px solid var(--rk-grey-200); margin-top: var(--rk-s-7); padding-top: var(--rk-s-5); display: flex; justify-content: space-between; align-items: center; gap: var(--rk-s-4); flex-wrap: wrap; }
+.rk-dk-footer__bottom ul { list-style: none; display: flex; flex-wrap: wrap; gap: var(--rk-s-5); margin: 0; padding: 0; }
+.rk-dk-footer__social { display: flex; align-items: center; gap: var(--rk-s-4); font-size: var(--rk-body); font-weight: 700; }
+.rk-dk-footer__social a { display: inline-flex; }
+.rk-dk-footer__social svg { width: 24px; height: 24px; }
+@media (max-width: 900px) { .rk-dk-footer__grid { grid-template-columns: 1fr 1fr; } .rk-dk-footer__divider { display: none; } }
+@media (max-width: 600px) { .rk-dk-footer__grid { grid-template-columns: 1fr; } }
+
+/* ---------- 9. MRK: header, sidemenu, layout, footer ---------- */
+.rk-mrk-header { background: var(--rk-header-bg); }
+.rk-mrk-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--rk-s-5); min-height: 92px; padding: 0 var(--rk-s-5); }
+.rk-mrk-logo { height: 44px; width: auto; }
+.rk-mrk-header__tools { display: flex; align-items: center; gap: var(--rk-s-6); }
+.rk-mrk-search { display: flex; align-items: center; justify-content: space-between; width: 300px; height: 46px; padding: 4px 4px 4px 20px; border: 1px solid var(--rk-grey-200); border-radius: 30px; background: var(--rk-surface); color: var(--rk-text-subtle); font-size: var(--rk-label); }
+.rk-mrk-search button { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border: 0; border-radius: 30px; background: var(--rk-primary); color: #fff; font: inherit; font-size: var(--rk-small); font-weight: 700; text-transform: uppercase; cursor: pointer; }
+.rk-mrk-search button svg { width: 14px; height: 14px; }
+.rk-mrk-logout { display: inline-flex; align-items: center; gap: 8px; color: var(--rk-text); text-decoration: none; font-size: var(--rk-label); }
+.rk-mrk-logout svg { width: 20px; height: 20px; }
+.rk-mrk-mobile-tools { display: none; gap: var(--rk-s-4); }
+.rk-mrk-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: var(--rk-s-9); max-width: 1280px; margin: 0 auto; padding: var(--rk-s-6) var(--rk-s-5) var(--rk-s-11); }
+.rk-mrk-main { min-width: 0; }
+.rk-mrk-sidebar { background: var(--rk-surface); border-radius: var(--rk-radius-card); padding: var(--rk-s-4) 0; align-self: start; }
+.rk-mrk-sidebar h2 { font-size: var(--rk-small); font-weight: 700; text-transform: uppercase; color: var(--rk-grey-500); letter-spacing: .04em; margin: var(--rk-s-2) var(--rk-s-5) var(--rk-s-2); }
+.rk-mrk-sidebar ul { list-style: none; margin: 0; padding: 0; }
+.rk-mrk-sidebar hr { border: 0; border-top: 1px solid var(--rk-grey-200); margin: var(--rk-s-3) var(--rk-s-3); }
+.rk-mrk-sidebar a { position: relative; display: flex; align-items: center; gap: var(--rk-s-3); padding: 10px var(--rk-s-5); color: var(--rk-text); text-decoration: none; }
+.rk-mrk-sidebar a svg { width: 20px; height: 20px; }
+.rk-mrk-sidebar a:hover { background: var(--rk-sage-50); }
+.rk-mrk-sidebar a[aria-current="page"] { color: var(--rk-primary); font-weight: 700; }
+.rk-mrk-sidebar a[aria-current="page"]::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 4px; background: var(--rk-primary); }
+.rk-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: var(--rk-primary); color: #fff; font-size: var(--rk-small); font-weight: 700; }
+.rk-mrk-footer { background: var(--rk-footer-bg); padding: var(--rk-s-10) 0 var(--rk-s-9); }
+.rk-mrk-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--rk-s-6); max-width: 1100px; margin: 0 auto; padding: 0 var(--rk-s-5); }
+.rk-mrk-footer h2 { font-size: var(--rk-h2); }
+.rk-mrk-footer h3 { font-size: var(--rk-h5); margin-bottom: var(--rk-s-2); }
+.rk-mrk-footer p { margin: 0; line-height: 1.7; }
+.rk-mrk-footer__links { grid-column: 2 / 4; display: flex; gap: var(--rk-s-5); margin-top: var(--rk-s-7); }
+@media (max-width: 1023px) {
+  .rk-mrk-layout { grid-template-columns: 1fr; gap: var(--rk-s-5); }
+  .rk-mrk-sidebar, .rk-mrk-header__tools { display: none; }
+  .rk-mrk-mobile-tools { display: flex; }
+  .rk-mrk-header__inner { min-height: 68px; padding: 0 var(--rk-s-4); }
+  .rk-mrk-footer__grid { grid-template-columns: 1fr; }
+  .rk-mrk-footer__links { grid-column: auto; flex-direction: column; gap: var(--rk-s-2); }
+}
+
+/* ---------- 10. Andre platforme ---------- */
+.rk-anden { --rk-page-bg: var(--rk-sage-50); }
+.rk-anden-header { background: var(--rk-grey-0); border-bottom: 1px solid var(--rk-grey-200); }
+.rk-anden-header__inner { max-width: 1100px; margin: 0 auto; padding: 18px var(--rk-s-5); display: flex; align-items: center; gap: var(--rk-s-5); }
+.rk-anden-header__logo { width: 136px; flex: none; }
+@media (max-width: 767px) {
+  .rk-anden-header__inner { padding-top: 14px; padding-bottom: 14px; }
+  .rk-anden-header__logo { width: 122px; }
+}
+.rk-anden-main { max-width: 1100px; margin: 0 auto; padding: var(--rk-s-9) var(--rk-s-5) var(--rk-s-11); }
+
+/* ---------- 11. Logoer (brug KUN de leverede SVG'er – aldrig gentegnet) ---------- */
+.rk-logo { display: block; width: 100%; height: auto; }
+.rk-logo--mit-roede-kors { width: 230px; height: 44px; }
+@media (max-width: 400px) { .rk-logo--mit-roede-kors { width: 180px; height: auto; } }
+
+/* ---------- 12. rodekors.dk: indholdsnavigation (rkdk/Content-navigation-rkdk) ---------- */
+/* Foto i fuld kortbredde; tekstboksen overlapper fotoets bund og er rykket ind i begge sider */
+.rk-dk-contentnav { display: block; color: var(--rk-text); text-decoration: none; }
+.rk-dk-contentnav__img, .rk-dk-contentnav > .rk-img-placeholder { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; border-radius: 0; }
+.rk-dk-contentnav__box { position: relative; margin: -88px 30px 0; padding: var(--rk-s-6) var(--rk-s-6) var(--rk-s-7); background: var(--rk-red-50); box-shadow: 0 6px 20px rgba(0, 0, 0, .06); }
+.rk-dk-contentnav--grey .rk-dk-contentnav__box { background: var(--rk-grey-100); }
+.rk-dk-contentnav__box h3 { font-size: 22px; margin-bottom: var(--rk-s-2); }
+.rk-dk-contentnav__box p { font-size: 18px; line-height: 1.4; margin-bottom: var(--rk-s-4); }
+.rk-dk-contentnav:hover h3 { text-decoration: underline; }
+.rk-dk-arrowlink { display: inline-flex; align-items: center; gap: var(--rk-s-3); color: var(--rk-primary); font-weight: 700; font-size: 20px; text-decoration: none; }
+.rk-dk-arrowlink svg { width: 22px; height: 22px; }
+@media (max-width: 767px) { .rk-dk-contentnav__box { margin: -48px 16px 0; padding: var(--rk-s-5); } }
+.rk-segmented-label { display: block; font-size: var(--rk-label); font-weight: 700; margin-bottom: var(--rk-s-2); }
+.rk-dk .rk-segmented span { font-size: var(--rk-label); padding: 12px 20px; }
+
+
+</style>
+<style>
+/* Afhentninger – sidespecifik CSS (kun var(--rk-…)) */
+.da-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--rk-s-4); margin-bottom: var(--rk-s-5); }
+.da-top h1 { margin: 0 0 var(--rk-s-1); }
+.da-top p { margin: 0; color: var(--rk-text-muted); }
+
+.da-filters { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--rk-s-3) var(--rk-s-4); margin-bottom: var(--rk-s-5); }
+.da-filters .rk-field { margin: 0; flex: 1 1 260px; max-width: 420px; }
+.da-filters .rk-field--inline { flex-direction: row; align-items: center; gap: var(--rk-s-3); }
+.da-filters .rk-field--inline .rk-label { white-space: nowrap; }
+.da-search { position: relative; flex: 1 1 260px; max-width: 420px; }
+.da-search .rk-input { padding-right: 48px; border-radius: 30px; }
+.da-search svg { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; pointer-events: none; }
+.da-filters__spacer { flex: 1 1 auto; }
+
+/* Pille-skifter (som i designet) */
+.da-toggle { display: inline-flex; gap: var(--rk-s-1); padding: var(--rk-s-1); background: var(--rk-surface); border: 1px solid var(--rk-grey-200); border-radius: 30px; }
+.da-toggle button { font: inherit; font-size: var(--rk-label); border: 0; background: transparent; color: var(--rk-text); padding: 8px 16px; border-radius: 30px; cursor: pointer; white-space: nowrap; }
+.da-toggle button[aria-pressed="true"] { background: var(--rk-grey-800); color: var(--rk-grey-0); }
+
+/* Tabel */
+.da-tablewrap { background: var(--rk-surface); border-radius: var(--rk-radius-card); box-shadow: var(--rk-shadow); overflow: hidden; }
+.da-table { width: 100%; border-collapse: collapse; font-size: var(--rk-label); table-layout: fixed; }
+.da-table th { text-align: left; font-weight: 700; padding: var(--rk-s-4); color: var(--rk-text-muted); border-bottom: 1px solid var(--rk-grey-200); white-space: nowrap; }
+.da-table td { padding: var(--rk-s-5) var(--rk-s-4); border-bottom: 1px solid var(--rk-grey-200); vertical-align: middle; }
+.da-table th:first-child, .da-table td:first-child { padding-left: var(--rk-s-5); }
+.da-table th:last-child, .da-table td:last-child { padding-right: var(--rk-s-5); }
+.da-table tbody tr:focus-visible { outline: 2px solid var(--rk-grey-800); outline-offset: -2px; }
+.da-table tbody tr { cursor: pointer; transition: background .12s; }
+.da-table tbody tr:hover, .da-table tbody tr:focus-within { background: var(--rk-sage-50); }
+.da-table tbody tr:last-child td { border-bottom: 0; }
+.da-table .da-navn { font-weight: 700; font-size: var(--rk-body); color: var(--rk-text); }
+.da-table .da-sub { white-space: nowrap; }
+.da-table .da-sub { display: block; color: var(--rk-text-muted); margin-top: 2px; }
+.da-table .da-frist { display: block; color: var(--rk-primary); margin-top: 2px; }
+.da-table .rk-select { min-height: 32px; padding: 6px 36px 6px 12px; width: 100%; max-width: 160px; background-position: right 10px center; background-size: 16px; }
+.da-table .da-note { color: var(--rk-text); overflow-wrap: anywhere; }
+.da-table .da-note--tom { color: var(--rk-text-subtle); }
+.da-table td.da-actions { text-align: right; white-space: nowrap; }
+.da-empty { padding: var(--rk-s-7); text-align: center; color: var(--rk-text-muted); }
+
+/* Statusmærke */
+.da-status { display: inline-block; padding: 3px 10px; border-radius: 30px; font-size: var(--rk-small); font-weight: 700; white-space: nowrap; background: var(--rk-grey-200); color: var(--rk-text); }
+/* Farver fra Hjælpelinjen-designet (Parathjælperstatus): grå = ny, grøn = bekræftet, gul = afventer, rød = afmeldt */
+.da-status--ny, .da-st--ny { background-color: var(--rk-red-300); }
+.da-status--accepteret, .da-st--accepteret { background-color: rgba(104, 172, 18, .35); }
+.da-status--planlagt, .da-st--planlagt { background-color: #FFDE90; }
+.da-status--afhentet, .da-st--afhentet { background-color: var(--rk-grey-200); }
+.da-status--afvist, .da-st--afvist { background-color: rgba(181, 176, 162, .5); }
+.da-status { border-radius: 4px; }
+.rk-select.da-st { border-color: transparent; font-weight: 700; font-size: var(--rk-small); color: var(--rk-text); }
+.rk-select.da-st:focus { border-color: var(--rk-grey-800); }
+.rk-select.da-st option { background-color: var(--rk-surface); color: var(--rk-text); font-weight: 400; font-size: var(--rk-body); }
+
+/* Bred modal */
+.da-print, .rk-modal-backdrop[hidden], .da-lightbox[hidden], .da-toast[hidden], .da-empty[hidden], .da-dl > div[hidden] { display: none; }
+.da-modal.rk-modal { width: min(1100px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding-bottom: var(--rk-s-6); }
+.da-modal__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--rk-s-3); margin-bottom: var(--rk-s-5); padding-right: 48px; }
+.da-modal__head h2 { margin: 0; }
+.da-modal__meta { color: var(--rk-text-muted); font-size: var(--rk-label); width: 100%; }
+.da-modal__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rk-s-6); align-items: stretch; }
+.da-side { display: flex; flex-direction: column; }
+.da-side .rk-field:last-child { flex: 1; margin-bottom: 0; }
+.da-side .rk-field:last-child .rk-textarea { flex: 1; min-height: 120px; }
+.da-dl { margin: 0; background: var(--rk-sage-50); border-radius: var(--rk-radius-card); padding: 0 var(--rk-s-4); font-size: var(--rk-label); }
+.da-dl > div { display: grid; grid-template-columns: 130px 1fr; gap: var(--rk-s-3); padding: 10px 0; border-bottom: 1px solid var(--rk-grey-200); align-items: center; }
+.da-dl > div:last-child { border-bottom: 0; }
+.da-dl dt { font-weight: 700; }
+.da-dl dd { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--rk-s-2) var(--rk-s-3); }
+.da-dl dd ul { margin: 0; padding-left: 18px; }
+.da-dl .rk-btn--small { min-height: 32px; padding: 4px 14px; }
+.da-dl .rk-btn--small svg { width: 16px; height: 16px; }
+.da-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--rk-s-3); }
+.da-photo { margin: 0; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: var(--rk-radius-card); }
+.da-photo:hover img { opacity: .85; }
+.da-photo img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--rk-radius-card); background: var(--rk-sage-100); }
+.da-next { margin-top: var(--rk-s-6); padding: var(--rk-s-5); background: var(--rk-sage-50); border-radius: var(--rk-radius-card); }
+.da-next .rk-btn-row { justify-content: flex-end; }
+.da-next[hidden], .da-next .rk-btn[hidden] { display: none; }
+.da-side h3 { font-size: var(--rk-h5); margin: 0 0 var(--rk-s-3); }
+.da-side .rk-field { margin-bottom: var(--rk-s-4); }
+.da-side .rk-textarea { min-height: 96px; }
+.da-chauffoer { background: var(--rk-red-50); border-radius: var(--rk-radius-card); padding: var(--rk-s-3) var(--rk-s-4); font-size: var(--rk-label); margin-bottom: var(--rk-s-4); }
+.da-modal__foot { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--rk-s-3); border-top: 1px solid var(--rk-grey-200); margin-top: var(--rk-s-6); padding-top: var(--rk-s-5); }
+.da-modal__foot .rk-btn-row { gap: var(--rk-s-3); }
+.da-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--rk-grey-800); color: var(--rk-grey-0); padding: 12px 20px; border-radius: 30px; font-size: var(--rk-label); z-index: 60; }
+
+@media (max-width: 900px) {
+  .da-modal__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .da-table thead { display: none; }
+  .da-table, .da-table tbody, .da-table tr, .da-table td { display: block; width: 100%; }
+  .da-table colgroup { display: none; }
+  .da-table tr { padding: var(--rk-s-3) 0; border-bottom: 1px solid var(--rk-grey-200); }
+  .da-table td { border: 0; padding: 6px var(--rk-s-4); }
+  .da-table td:first-child, .da-table td:last-child { padding-left: var(--rk-s-4); padding-right: var(--rk-s-4); }
+  .da-table td[data-label]::before { content: attr(data-label); display: block; font-size: var(--rk-small); color: var(--rk-text-muted); font-weight: 700; margin-bottom: 2px; }
+  .da-table td.da-actions { text-align: left; }
+  .da-table .rk-select { width: 100%; }
+  .da-dl > div { grid-template-columns: 1fr; gap: 2px; }
+  .da-photos { grid-template-columns: repeat(2, 1fr); }
+  .da-toggle { flex-wrap: wrap; border-radius: 20px; max-width: 100%; }
+  .da-toggle button { padding: 8px 12px; }
+}
+
+/* Billedviser */
+.da-lightbox { position: fixed; inset: 0; z-index: 70; background: rgba(55, 53, 56, .92); display: grid; grid-template-columns: 72px 1fr 72px; align-items: center; padding: var(--rk-s-4); }
+.da-lightbox__figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--rk-s-3); min-width: 0; }
+.da-lightbox__figure img { max-width: 100%; max-height: calc(100vh - 120px); object-fit: contain; border-radius: var(--rk-radius-card); background: var(--rk-sage-100); }
+.da-lightbox__figure figcaption { color: var(--rk-grey-0); font-size: var(--rk-label); text-align: center; }
+.da-lightbox__nav { width: 48px; height: 48px; margin: 0 auto; border-radius: 50%; border: 1px solid var(--rk-grey-0); background: transparent; color: var(--rk-grey-0); cursor: pointer; display: grid; place-items: center; }
+.da-lightbox__nav:hover { background: rgba(255, 255, 255, .15); }
+.da-lightbox__nav[disabled] { opacity: .3; cursor: default; }
+.da-lightbox__nav svg { width: 22px; height: 22px; }
+.da-lightbox__nav--prev svg { transform: rotate(180deg); }
+.da-lightbox__close { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--rk-grey-0); cursor: pointer; display: grid; place-items: center; }
+.da-lightbox__close svg { width: 24px; height: 24px; }
+.da-lightbox__close:hover { background: rgba(255, 255, 255, .15); }
+@media (max-width: 767px) {
+  .da-lightbox { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .da-lightbox__nav--prev { grid-row: 2; justify-self: start; margin: 0; }
+  .da-lightbox__nav--next { grid-row: 2; justify-self: end; margin: -48px 0 0; }
+  .da-lightbox__figure img { max-height: calc(100vh - 160px); }
+}
+
+/* Datovælger */
+.da-datepicker-backdrop { z-index: 65; }
+.da-datepicker.rk-modal { width: min(440px, 100%); padding-bottom: var(--rk-s-6); }
+.da-datofelt { cursor: pointer; }
+.rk-anden .da-datofelt[readonly] { background: var(--rk-surface); border-color: var(--rk-grey-200); }
+.da-cal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--rk-s-3); }
+.da-cal__nav { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--rk-grey-200); background: var(--rk-surface); color: var(--rk-text); cursor: pointer; display: grid; place-items: center; }
+.da-cal__nav:hover { background: var(--rk-sage-50); }
+.da-cal__nav svg { width: 18px; height: 18px; }
+#dp-prev svg { transform: rotate(180deg); }
+.da-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.da-cal__ugedage { font-size: var(--rk-small); color: var(--rk-text-muted); text-align: center; font-weight: 700; margin-bottom: 4px; }
+.da-cal__dag { aspect-ratio: 1; border: 1px solid transparent; border-radius: 50%; background: transparent; font: inherit; font-size: var(--rk-label); color: var(--rk-text); cursor: pointer; }
+.da-cal__dag:hover { background: var(--rk-sage-100); }
+.da-cal__dag--idag { border-color: var(--rk-grey-800); }
+.da-cal__dag--valgt, .da-cal__dag--valgt:hover { background: var(--rk-grey-800); color: var(--rk-grey-0); }
+.da-cal__dag--har { position: relative; }
+.da-cal__dag--har::after { content: ''; position: absolute; left: 50%; bottom: 4px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--rk-primary); }
+.da-cal__dag--valgt::after { background: var(--rk-grey-0); }
+.da-cal__hint { font-size: var(--rk-label); color: var(--rk-text-muted); margin: calc(-1 * var(--rk-s-3)) 0 var(--rk-s-4); }
+.da-cal__hint[hidden], .da-tid[hidden] { display: none; }
+.da-cal__dag[disabled] { color: var(--rk-grey-400); cursor: default; background: transparent; }
+.da-tid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--rk-s-4); margin-top: var(--rk-s-5); }
+.da-tid .rk-field { margin: 0; }
+.da-tid__fejl { color: var(--rk-error); font-size: var(--rk-label); margin: var(--rk-s-3) 0 0; }
+.da-tid__fejl[hidden] { display: none; }
+.da-datepicker__foot { display: flex; justify-content: space-between; align-items: center; margin-top: var(--rk-s-5); }
+
+/* Køreplan */
+.da-koereplan.rk-modal { width: min(760px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding-bottom: var(--rk-s-6); }
+.da-koereplan__liste { margin-top: var(--rk-s-2); }
+.da-kp__antal { margin: 0 0 var(--rk-s-3); font-size: var(--rk-label); color: var(--rk-text-muted); }
+.da-kp { border: 1px solid var(--rk-grey-200); border-radius: var(--rk-radius-card); padding: var(--rk-s-4) var(--rk-s-5); margin-bottom: var(--rk-s-3); break-inside: avoid; }
+.da-kp__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: var(--rk-s-2) var(--rk-s-5); padding-bottom: var(--rk-s-3); margin-bottom: var(--rk-s-3); border-bottom: 1px solid var(--rk-grey-200); }
+.da-kp h3 { font-size: var(--rk-h4); margin: 0 0 2px; }
+.da-kp__adresse { margin: 0; font-size: var(--rk-body); }
+.da-kp__tid { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+.da-kp__tid strong { font-size: var(--rk-h5); }
+.da-kp__tid span { font-size: var(--rk-body); }
+.da-kp dl { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px var(--rk-s-5); font-size: var(--rk-label); }
+.da-kp dl > div { display: grid; grid-template-columns: 120px 1fr; gap: var(--rk-s-2); }
+.da-kp dt { font-weight: 700; }
+.da-kp dd { margin: 0; }
+.da-koereplan .da-modal__foot { justify-content: flex-end; }
+@media (max-width: 767px) { .da-kp dl { grid-template-columns: 1fr; } .da-kp__tid { align-items: flex-start; text-align: left; } }
+
+@media print {
+  html, body { overflow: visible !important; background: #fff !important; }
+  body > *:not(main) { display: none !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  main > *:not(.da-print) { display: none !important; }
+  .da-print { display: block !important; position: static; padding: 0; color: #000; font-size: 12px; }
+  .da-print h1 { font-size: 20px; margin: 0 0 4px; }
+  .da-print > p { margin: 0 0 16px; font-size: 12px; }
+  .da-print .da-kp { border: 1px solid #999; border-radius: 0; padding: 10px 12px; margin-bottom: 10px; page-break-inside: avoid; }
+  .da-print .da-kp__top { border-bottom-color: #999; padding-bottom: 6px; margin-bottom: 6px; }
+  .da-print .da-kp h3 { font-size: 16px; }
+  .da-print .da-kp__adresse, .da-print .da-kp__tid span { font-size: 13px; }
+  .da-print .da-kp__tid strong { font-size: 15px; }
+  .da-print .da-kp dl { color: #000; font-size: 11px; }
+  .da-print .da-kp dl { gap: 2px 20px; }
+  .da-print .da-kp dl > div { grid-template-columns: 110px 1fr; }
+}
+
+</style>
+</head>
+<body class="rk-anden">
+<!-- Andre platforme: egen hvid header, lys sidebaggrund og ingen MRK-sidemenu eller footer.
+     Brug kun komponenter fra afsnit 1 og 3 i assets/components.html. -->
+<header class="rk-anden-header">
+  <div class="rk-anden-header__inner">
+    <div class="rk-anden-header__logo"><svg class="rk-logo rk-logo--co-branding-vandret" viewBox="0 0 315 150" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Røde Kors"><path d="M4.28096 0H310.649C313.009 0 314.93 1.92114 314.93 4.28096V145.719C314.93 148.079 313.009 150 310.649 150H4.28096C1.92114 150 0 148.079 0 145.719V4.28096C0 1.92114 1.92114 0 4.28096 0Z" fill="white"/><path d="M141.725 54.4728H100.61V13.3574H59.797V54.4728H18.6816V95.2856H59.797V136.386H100.61V95.2856H141.725V54.4728Z" fill="#E30A0B"/><path d="M169.877 44.4736H181.404C184.701 44.4736 187.334 45.472 189.028 47.1511C190.329 48.4521 191.1 50.3278 191.1 52.4305V52.5061C191.1 56.9383 188.045 59.5402 183.824 60.3117L192.053 71.2637H188.347L180.572 60.8562H172.917V71.2637H169.892V44.4736H169.877ZM181.131 58.1334C185.155 58.1334 188.014 56.061 188.014 52.6271V52.5515C188.014 49.2538 185.488 47.2721 181.162 47.2721H172.902V58.1334H181.131Z" fill="#373538"/><path d="M200.645 68.9338L198.27 71.46H195.094L198.876 67.3303C196.652 64.8495 195.396 61.5064 195.396 57.9516V57.8759C195.396 50.4939 200.948 44.0195 209.101 44.0195C212.399 44.0195 215.258 45.0482 217.482 46.8483L219.857 44.2767H223.033L219.252 48.4064C221.475 50.8872 222.731 54.2303 222.731 57.7852C222.731 57.7852 222.731 57.8104 222.731 57.8608C222.731 65.2428 217.179 71.7172 209.026 71.7172C205.743 71.7172 202.869 70.6886 200.645 68.9187V68.9338ZM215.53 49.1174C213.806 47.6652 211.552 46.7878 209.026 46.7878C202.899 46.7878 198.543 51.7192 198.543 57.8154V57.8911C198.543 60.6139 199.42 63.0948 200.948 65.0462L215.53 49.1325V49.1174ZM219.584 57.9516V57.8759C219.584 55.153 218.707 52.6722 217.179 50.7208L202.597 66.6345C204.321 68.0867 206.575 68.9641 209.101 68.9641C215.228 68.9641 219.584 64.0326 219.584 57.9364V57.9516Z" fill="#373538"/><path d="M228.161 44.4736H237.464C245.89 44.4736 251.699 50.2522 251.699 57.7854V57.8611C251.699 65.3944 245.89 71.2485 237.464 71.2485H228.161V44.4585V44.4736ZM237.464 68.4651C244.241 68.4651 248.568 63.8665 248.568 57.9367V57.8611C248.568 51.9313 244.241 47.257 237.464 47.257H231.187V68.4651H237.464Z" fill="#373538"/><path d="M257.13 44.4736H276.493V47.2268H260.155V56.3786H274.768V59.1318H260.155V68.5105H276.689V71.2637H257.13V44.4736Z" fill="#373538"/><path d="M169.877 79.7192H172.902V95.7237L188.287 79.7192H192.189L180.708 91.4276L192.689 106.509H188.907L178.62 93.5303L172.917 99.3088V106.509H169.892V79.7192H169.877Z" fill="#373538"/><path d="M193.264 93.1977V93.122C193.264 85.74 198.815 79.2656 206.969 79.2656C215.122 79.2656 220.598 85.6492 220.598 93.0464C220.598 93.0464 220.598 93.0716 220.598 93.122C220.598 100.504 215.047 106.978 206.893 106.978C198.74 106.978 193.264 100.595 193.264 93.1977ZM217.452 93.1977V93.122C217.452 87.0409 213.02 82.0641 206.893 82.0641C200.767 82.0641 196.41 86.9653 196.41 93.0464V93.122C196.41 99.2031 200.842 104.18 206.969 104.18C213.095 104.18 217.452 99.2787 217.452 93.1977Z" fill="#373538"/><path d="M226.028 79.7192H237.555C240.853 79.7192 243.485 80.7176 245.179 82.3967C246.48 83.6977 247.252 85.5734 247.252 87.6761V87.7517C247.252 92.1839 244.196 94.8009 239.975 95.5573L248.205 106.509H244.498L236.723 96.1018H229.069V106.509H226.043V79.7192H226.028ZM237.283 93.379C241.307 93.379 244.166 91.3066 244.166 87.8727V87.7971C244.166 84.4994 241.639 82.5177 237.313 82.5177H229.054V93.379H237.283Z" fill="#373538"/><path d="M250.973 102.607L252.848 100.383C255.647 102.909 258.324 104.165 262.031 104.165C265.737 104.165 268.006 102.259 268.006 99.6116V99.5359C268.006 97.0551 266.659 95.6332 261.047 94.4381C254.891 93.1069 252.047 91.1102 252.047 86.7082V86.6325C252.047 82.4272 255.753 79.3262 260.851 79.3262C264.753 79.3262 267.552 80.4304 270.26 82.6239L268.505 84.9534C266.024 82.9264 263.528 82.049 260.775 82.049C257.296 82.049 255.072 83.9551 255.072 86.3754V86.451C255.072 88.9772 256.449 90.3992 262.348 91.6547C268.323 92.9557 271.077 95.134 271.077 99.2334V99.309C271.077 103.908 267.249 106.888 261.925 106.888C257.674 106.888 254.195 105.466 250.988 102.607H250.973Z" fill="#373538"/></svg></div>
+  </div>
+</header>
+
+<main class="rk-anden-main" id="indhold">
+
+<div class="da-top">
+    <div>
+      <h1>Anmodninger om afhentning</h1>
+      <p id="da-summary">6 anmodninger · 1 ny</p>
+    </div>
+  </div>
+
+  <div class="da-filters">
+    <div class="da-toggle" role="group" aria-label="Filtrér på status" id="da-toggle">
+      <button type="button" data-filter="igang" aria-pressed="true">I gang</button>
+      <button type="button" data-filter="nye" aria-pressed="false">Nye</button>
+      <button type="button" data-filter="accepteret" aria-pressed="false">Accepteret</button>
+      <button type="button" data-filter="planlagt" aria-pressed="false">Planlagt</button>
+      <button type="button" data-filter="afsluttede" aria-pressed="false">Afsluttede</button>
+    </div>
+    <a href="#" class="rk-btn rk-btn--tertiary rk-btn--small" id="da-print-aabn"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.8909 7.09091V5.32364C17.8909 4.2239 17.8909 3.67403 17.6769 3.25399C17.4886 2.88451 17.1882 2.58411 16.8188 2.39585C16.3987 2.18182 15.8488 2.18182 14.7491 2.18182H9.25091C8.15118 2.18182 7.60131 2.18182 7.18126 2.39585C6.81178 2.58411 6.51138 2.88451 6.32312 3.25399C6.1091 3.67403 6.1091 4.2239 6.1091 5.32364V7.09091M6.1091 17.8909C5.19603 17.8909 4.7395 17.8909 4.36494 17.7906C3.34849 17.5182 2.55455 16.7243 2.28219 15.7078C2.18182 15.3332 2.18182 14.8767 2.18182 13.9636V11.8036C2.18182 10.154 2.18182 9.32923 2.50286 8.69916C2.78525 8.14494 3.23585 7.69434 3.79007 7.41195C4.42014 7.09091 5.24494 7.09091 6.89455 7.09091H17.1055C18.7551 7.09091 19.5799 7.09091 20.2099 7.41195C20.7642 7.69434 21.2148 8.14494 21.4972 8.69916C21.8182 9.32923 21.8182 10.154 21.8182 11.8036V13.9636C21.8182 14.8767 21.8182 15.3332 21.7178 15.7078C21.4455 16.7243 20.6515 17.5182 19.6351 17.7906C19.2605 17.8909 18.804 17.8909 17.8909 17.8909M14.9455 10.5273H17.8909M9.25091 21.8182H14.7491C15.8488 21.8182 16.3987 21.8182 16.8188 21.6042C17.1882 21.4159 17.4886 21.1155 17.6769 20.746C17.8909 20.326 17.8909 19.7761 17.8909 18.6764V17.1055C17.8909 16.0057 17.8909 15.4559 17.6769 15.0358C17.4886 14.6663 17.1882 14.3659 16.8188 14.1777C16.3987 13.9636 15.8488 13.9636 14.7491 13.9636H9.25091C8.15118 13.9636 7.60131 13.9636 7.18126 14.1777C6.81178 14.3659 6.51138 14.6663 6.32312 15.0358C6.1091 15.4559 6.1091 16.0057 6.1091 17.1055V18.6764C6.1091 19.7761 6.1091 20.326 6.32312 20.746C6.51138 21.1155 6.81178 21.4159 7.18126 21.6042C7.60131 21.8182 8.15117 21.8182 9.25091 21.8182Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> Print køreplan</a>
+  </div>
+
+  <div class="da-tablewrap">
+    <table class="da-table" id="da-table">
+      <colgroup><col style="width:19%"><col style="width:17%"><col style="width:17%"><col style="width:17%"><col style="width:19%"><col style="width:11%"></colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Donor</th>
+          <th scope="col">Møbler</th>
+          <th scope="col">Info</th>
+          <th scope="col">Status</th>
+          <th scope="col">Note</th>
+          <th scope="col"><span style="position:absolute;left:-9999px">Handling</span></th>
+        </tr>
+      </thead>
+      <tbody id="da-rows"></tbody>
+    </table>
+    <p class="da-empty" id="da-empty" hidden>Der er ingen anmodninger, der matcher.</p>
+  </div>
+
+  <!-- Bred modal med alle oplysninger -->
+  <div class="rk-modal-backdrop" id="da-backdrop" hidden>
+    <div class="rk-modal da-modal" role="dialog" aria-modal="true" aria-labelledby="da-modal-titel" id="da-modal">
+      <button class="rk-modal__close" type="button" id="da-close" aria-label="Luk"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="da-modal__head">
+        <h2 id="da-modal-titel">Anmodning</h2>
+        <span class="da-modal__meta" id="dm-meta"></span>
+      </div>
+
+      <div class="da-modal__grid">
+        <div>
+          <dl class="da-dl">
+            <div><dt>Navn</dt><dd id="dm-navn"></dd></div>
+            <div><dt>Adresse</dt><dd id="dm-adresse"></dd></div>
+            <div><dt>Telefon</dt><dd><a href="#" id="dm-tlf"></a></dd></div>
+            <div id="dm-mail-row"><dt>E-mail</dt><dd><a href="#" id="dm-mail"></a></dd></div>
+            <div><dt>Møbler</dt><dd><ul id="dm-ting"></ul></dd></div>
+            <div><dt>Afhentes senest</dt><dd id="dm-seneste"></dd></div>
+            <div><dt>Står i gadeplan</dt><dd id="dm-gadeplan"></dd></div>
+            <div id="dm-elevator-row"><dt>Elevator</dt><dd id="dm-elevator"></dd></div>
+            <div><dt>Kontakt via</dt><dd id="dm-kontakt"></dd></div>
+            <div><dt>Butik</dt><dd id="dm-butik"></dd></div>
+            <div id="dm-kommentar-row"><dt>Donors kommentar</dt><dd id="dm-kommentar"></dd></div>
+            <div><dt>Indsendt</dt><dd id="dm-indsendt"></dd></div>
+          </dl>
+        </div>
+
+        <div class="da-side">
+          <div class="rk-field">
+            <label class="rk-label" for="dm-status">Status</label>
+            <select class="rk-select da-st" id="dm-status">
+              <option>Ny</option>
+              <option>Accepteret</option>
+              <option>Planlagt</option>
+              <option>Afhentet</option>
+              <option>Afvist</option>
+            </select>
+          </div>
+          <div class="rk-field">
+            <label class="rk-label" for="dm-dato">Planlagt afhentning</label>
+            <div class="rk-input-wrap"><input class="rk-input da-datofelt" id="dm-dato" placeholder="Vælg dato og tidsrum" readonly><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.07273 2.18182V5.12728M15.9273 2.18182V5.12728M3.65454 9.14291H20.3455M15.6275 13.6691H15.6363M15.6275 16.6146H15.6363M11.9956 13.6691H12.0044M11.9956 16.6146H12.0044M8.36169 13.6691H8.37051M8.36169 16.6146H8.37051M20.8364 8.56364V16.9091C20.8364 19.8546 19.3636 21.8182 15.9273 21.8182H8.07273C4.63636 21.8182 3.16364 19.8546 3.16364 16.9091V8.56364C3.16364 5.61819 4.63636 3.65455 8.07273 3.65455H15.9273C19.3636 3.65455 20.8364 5.61819 20.8364 8.56364Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="rk-field">
+            <label class="rk-label" for="dm-note">Dine noter</label>
+            <textarea class="rk-textarea" id="dm-note" placeholder="Skriv en note om anmodningen her, fx hvis du har taget kontakt (donor ser ikke noten)."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-size:var(--rk-h5);margin:var(--rk-s-6) 0 var(--rk-s-3)">Billeder fra donor</h3>
+      <div class="da-photos" id="dm-photos"></div>
+
+      <div class="da-next" id="dm-naeste">
+        <h3 style="font-size:var(--rk-h5);margin:0 0 var(--rk-s-2)">Næste skridt</h3>
+        <p style="font-size:var(--rk-label);margin:0 0 var(--rk-s-3)" id="dm-naeste-tekst"></p>
+        <div class="rk-btn-row">
+          <a href="#" class="rk-btn rk-btn--secondary rk-btn--small" id="dm-accepter">Accepter anmodning</a>
+          <a href="#" class="rk-btn rk-btn--tertiary rk-btn--small" id="dm-afvis">Afvis anmodning</a>
+        </div>
+      </div>
+
+      <div class="da-modal__foot">
+        <a href="#" class="rk-btn rk-btn--primary" id="dm-gem">Gem</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="da-toast" id="da-toast" hidden role="status"></div>
+
+  <!-- Køreplan -->
+  <div class="rk-modal-backdrop" id="kp-backdrop" hidden>
+    <div class="rk-modal da-koereplan" role="dialog" aria-modal="true" aria-labelledby="kp-titel">
+      <button class="rk-modal__close" type="button" id="kp-close" aria-label="Luk"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h2 id="kp-titel">Print køreplan</h2>
+      <div class="rk-field" style="max-width:360px">
+        <label class="rk-label" for="kp-dato">Køredato</label>
+        <div class="rk-input-wrap"><input class="rk-input da-datofelt" id="kp-dato" placeholder="Alle planlagte afhentninger" readonly><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.07273 2.18182V5.12728M15.9273 2.18182V5.12728M3.65454 9.14291H20.3455M15.6275 13.6691H15.6363M15.6275 16.6146H15.6363M11.9956 13.6691H12.0044M11.9956 16.6146H12.0044M8.36169 13.6691H8.37051M8.36169 16.6146H8.37051M20.8364 8.56364V16.9091C20.8364 19.8546 19.3636 21.8182 15.9273 21.8182H8.07273C4.63636 21.8182 3.16364 19.8546 3.16364 16.9091V8.56364C3.16364 5.61819 4.63636 3.65455 8.07273 3.65455H15.9273C19.3636 3.65455 20.8364 5.61819 20.8364 8.56364Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="da-koereplan__liste" id="kp-liste"></div>
+      <div class="da-modal__foot">
+        <a href="#" class="rk-btn rk-btn--primary" id="kp-print"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.8909 7.09091V5.32364C17.8909 4.2239 17.8909 3.67403 17.6769 3.25399C17.4886 2.88451 17.1882 2.58411 16.8188 2.39585C16.3987 2.18182 15.8488 2.18182 14.7491 2.18182H9.25091C8.15118 2.18182 7.60131 2.18182 7.18126 2.39585C6.81178 2.58411 6.51138 2.88451 6.32312 3.25399C6.1091 3.67403 6.1091 4.2239 6.1091 5.32364V7.09091M6.1091 17.8909C5.19603 17.8909 4.7395 17.8909 4.36494 17.7906C3.34849 17.5182 2.55455 16.7243 2.28219 15.7078C2.18182 15.3332 2.18182 14.8767 2.18182 13.9636V11.8036C2.18182 10.154 2.18182 9.32923 2.50286 8.69916C2.78525 8.14494 3.23585 7.69434 3.79007 7.41195C4.42014 7.09091 5.24494 7.09091 6.89455 7.09091H17.1055C18.7551 7.09091 19.5799 7.09091 20.2099 7.41195C20.7642 7.69434 21.2148 8.14494 21.4972 8.69916C21.8182 9.32923 21.8182 10.154 21.8182 11.8036V13.9636C21.8182 14.8767 21.8182 15.3332 21.7178 15.7078C21.4455 16.7243 20.6515 17.5182 19.6351 17.7906C19.2605 17.8909 18.804 17.8909 17.8909 17.8909M14.9455 10.5273H17.8909M9.25091 21.8182H14.7491C15.8488 21.8182 16.3987 21.8182 16.8188 21.6042C17.1882 21.4159 17.4886 21.1155 17.6769 20.746C17.8909 20.326 17.8909 19.7761 17.8909 18.6764V17.1055C17.8909 16.0057 17.8909 15.4559 17.6769 15.0358C17.4886 14.6663 17.1882 14.3659 16.8188 14.1777C16.3987 13.9636 15.8488 13.9636 14.7491 13.9636H9.25091C8.15118 13.9636 7.60131 13.9636 7.18126 14.1777C6.81178 14.3659 6.51138 14.6663 6.32312 15.0358C6.1091 15.4559 6.1091 16.0057 6.1091 17.1055V18.6764C6.1091 19.7761 6.1091 20.326 6.32312 20.746C6.51138 21.1155 6.81178 21.4159 7.18126 21.6042C7.60131 21.8182 8.15117 21.8182 9.25091 21.8182Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> Print</a>
+      </div>
+    </div>
+  </div>
+  <div class="da-print" id="da-print" aria-hidden="true"></div>
+
+  <!-- Datovælger -->
+  <div class="rk-modal-backdrop da-datepicker-backdrop" id="dp-backdrop" hidden>
+    <div class="rk-modal da-datepicker" role="dialog" aria-modal="true" aria-labelledby="dp-titel">
+      <button class="rk-modal__close" type="button" id="dp-close" aria-label="Luk"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <h2 id="dp-titel">Planlæg afhentning</h2>
+      <p class="da-cal__hint" id="dp-hint" hidden>Datoer med planlagte afhentninger er markeret med en prik.</p>
+      <div class="da-cal">
+        <div class="da-cal__head">
+          <button type="button" class="da-cal__nav" id="dp-prev" aria-label="Forrige måned"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 15H23M15.2222 23L23 15L15.2222 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <strong id="dp-maaned" aria-live="polite"></strong>
+          <button type="button" class="da-cal__nav" id="dp-next" aria-label="Næste måned"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 15H23M15.2222 23L23 15L15.2222 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="da-cal__grid da-cal__ugedage" aria-hidden="true"><span>Ma</span><span>Ti</span><span>On</span><span>To</span><span>Fr</span><span>Lø</span><span>Sø</span></div>
+        <div class="da-cal__grid" id="dp-dage" role="group" aria-label="Vælg dato"></div>
+      </div>
+      <div class="da-tid" id="dp-tid">
+        <div class="rk-field"><label class="rk-label" for="dp-fra">Mellem kl.</label><select class="rk-select" id="dp-fra"></select></div>
+        <div class="rk-field"><label class="rk-label" for="dp-til">og kl.</label><select class="rk-select" id="dp-til"></select></div>
+      </div>
+      <p class="da-tid__fejl" id="dp-fejl" hidden>Sluttidspunktet skal være efter starttidspunktet.</p>
+      <div class="da-datepicker__foot">
+        <a href="#" class="rk-btn rk-btn--tertiary rk-btn--small" id="dp-ryd">Ryd</a>
+        <a href="#" class="rk-btn rk-btn--primary" id="dp-ok">Vælg</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Billedviser (lightbox) -->
+  <div class="da-lightbox" id="da-lightbox" hidden role="dialog" aria-modal="true" aria-label="Billede fra donor">
+    <button type="button" class="da-lightbox__close" id="lb-close" aria-label="Luk billedviser"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="da-lightbox__nav da-lightbox__nav--prev" id="lb-prev" aria-label="Forrige billede"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 15H23M15.2222 23L23 15L15.2222 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    <figure class="da-lightbox__figure">
+      <img id="lb-img" src="" alt="">
+      <figcaption id="lb-caption"></figcaption>
+    </figure>
+    <button type="button" class="da-lightbox__nav da-lightbox__nav--next" id="lb-next" aria-label="Næste billede"><svg class="rk-icon" aria-hidden="true" focusable="false" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 15H23M15.2222 23L23 15L15.2222 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+
+<script>
+(function () {
+  var NU = new Date('2026-10-29T12:00:00');
+  var rows = [
+    { id: 1, navn: 'Anne Holm', adresse: 'Eksempelvej 12, 2850 Nærum', by: 'Nærum', telefon: '12 34 56 78', email: '', status: 'Ny', indsendt: '2026-10-28T19:51', ting: ['2 × Sofa'], seneste: '2026-10-31', gadeplan: 'Ja', elevator: '', kontakt: 'Opkald', kommentar: '', chauffoer: '', note: '', dato: '', fotos: ['sofa','sofa-graa','sofa-side','sofa-laeder','sofa-roed'] },
+    { id: 2, navn: 'Mads Kjær', adresse: 'Testgade 4, 2100 København Ø', by: 'København Ø', telefon: '23 45 67 89', email: 'mads@eksempel.dk', status: 'Ny', indsendt: '2026-10-21T11:33', ting: ['1 × Sofa', '3 × Stole', '1 × Bord', '1 × Kommode'], seneste: '2026-10-30', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: '', chauffoer: '', note: '', dato: '', fotos: ['sofa-graa','stole-bord','bord','kommode','stol'] },
+    { id: 3, navn: 'Sofie Lund', adresse: 'Prøvevej 8, 5000 Odense C', by: 'Odense C', telefon: '34 56 78 90', email: '', status: 'Planlagt', statusDato: '2026-10-22T10:00', indsendt: '2026-10-20T15:34', ting: ['1 × Sofa', '1 × Stol'], seneste: '2026-10-21', gadeplan: 'Nej', elevator: 'Ja', kontakt: 'SMS', kommentar: 'Sofaen står på 2. sal.', chauffoer: 'Ring på ved ankomst.', note: 'Aftalt afhentning fredag formiddag.', dato: '31-10-2026 kl. 13.00–18.00', fotos: ['sofa-side','stol','sofa-roed','stol-trae','reol-hvid'] },
+    { id: 4, navn: 'Peter Nielsen', adresse: 'Eksempelvej 3, 8680 Ry', by: 'Ry', telefon: '45 67 89 01', email: 'peter@eksempel.dk', status: 'Accepteret', statusDato: '2026-10-26T09:15', indsendt: '2026-10-09T10:25', ting: ['1 × Sofa'], seneste: '2026-10-20', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: '', chauffoer: 'Afhentning i carport.', note: '', dato: '', fotos: ['sofa-laeder','sofa','sofa-side','sofa-graa','kommode-hvid'] },
+    { id: 5, navn: 'Karen Berg', adresse: 'Testvej 17, 9310 Vodskov', by: 'Vodskov', telefon: '56 78 90 12', email: '', status: 'Afvist', statusDato: '2026-09-27T14:10', indsendt: '2026-09-25T13:55', ting: ['1 × Sofa', '1 × Reol'], seneste: '2026-09-30', gadeplan: 'Nej', elevator: 'Nej', kontakt: 'Opkald', kommentar: '', chauffoer: '', note: 'Sofaen havde skader på betrækket – afvist efter opkald.', dato: '', fotos: ['sofa-roed','reol','reol-hvid','sofa','stol'] },
+    { id: 6, navn: 'Jonas Møller', adresse: 'Prøvegade 35, 5000 Odense C', by: 'Odense C', telefon: '67 89 01 23', email: '', status: 'Afhentet', statusDato: '2026-09-29T11:40', indsendt: '2026-09-24T08:34', ting: ['4 × Stole'], seneste: '2026-09-30', gadeplan: 'Ja', elevator: '', kontakt: 'SMS', kommentar: 'De er rigtig fine.', chauffoer: 'Kom gerne om formiddagen.', note: 'Hentet 29/9. Står i butikken.', dato: '29-09-2026 kl. 09.00–12.00', fotos: ['stol','stol-trae','stole-bord','bord-sort','stol'] },
+    { id: 7, navn: 'Louise Thomsen', adresse: 'Søndergade 21, 8000 Aarhus C', by: 'Aarhus C', telefon: '20 11 22 33', email: 'louise@eksempel.dk', status: 'Ny', indsendt: '2026-10-29T08:12', ting: ['1 × Sofa', '2 × Lænestole'], seneste: '2026-11-06', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: 'Sofaen er fra 2021 og uden pletter.', note: '', dato: '', fotos: ['sofa-graa','stol','stol-trae','sofa-side','bord'] },
+    { id: 8, navn: 'Henrik Dahl', adresse: 'Vestervej 9, 6000 Kolding', by: 'Kolding', telefon: '31 44 55 66', email: '', status: 'Ny', indsendt: '2026-10-28T14:40', ting: ['1 × Spisebord', '6 × Stole'], seneste: '2026-11-03', gadeplan: 'Nej', elevator: 'Nej', kontakt: 'Opkald', kommentar: 'Bordet kan skilles ad.', note: '', dato: '', fotos: ['bord','stole-bord','stol','bord-sort','stol-trae'] },
+    { id: 9, navn: 'Maria Christensen', adresse: 'Nørregade 44, 2200 København N', by: 'København N', telefon: '42 55 66 77', email: 'maria@eksempel.dk', status: 'Ny', indsendt: '2026-10-27T17:05', ting: ['1 × Reol', '1 × Kommode'], seneste: '2026-11-01', gadeplan: 'Nej', elevator: 'Ja', kontakt: 'SMS', kommentar: '', note: '', dato: '', fotos: ['reol','kommode','reol-hvid','kommode-hvid','reol'] },
+    { id: 10, navn: 'Thomas Rasmussen', adresse: 'Åboulevarden 3, 9000 Aalborg', by: 'Aalborg', telefon: '53 66 77 88', email: '', status: 'Ny', indsendt: '2026-10-26T10:30', ting: ['1 × Lædersofa'], seneste: '2026-11-02', gadeplan: 'Ja', elevator: '', kontakt: 'Opkald', kommentar: '', note: '', dato: '', fotos: ['sofa-laeder','sofa','sofa-side','sofa-graa','sofa-roed'] },
+    { id: 11, navn: 'Birgitte Mortensen', adresse: 'Kirkevej 15, 4700 Næstved', by: 'Næstved', telefon: '64 77 88 99', email: 'birgitte@eksempel.dk', status: 'Accepteret', statusDato: '2026-10-28T09:00', indsendt: '2026-10-23T12:15', ting: ['1 × Sofa', '1 × Sofabord'], seneste: '2026-11-05', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: '', note: 'Ringer tirsdag for at aftale tid.', dato: '', fotos: ['sofa-roed','bord','sofa','bord-sort','stol'] },
+    { id: 12, navn: 'Søren Jakobsen', adresse: 'Havnegade 7, 5700 Svendborg', by: 'Svendborg', telefon: '75 88 99 00', email: '', status: 'Accepteret', statusDato: '2026-10-27T15:20', indsendt: '2026-10-22T09:48', ting: ['4 × Stole', '1 × Bord'], seneste: '2026-11-04', gadeplan: 'Nej', elevator: 'Nej', kontakt: 'SMS', kommentar: 'Står i kælderen – der er en bred trappe.', note: '', dato: '', fotos: ['stol','stol-trae','bord','stole-bord','stol'] },
+    { id: 13, navn: 'Camilla Friis', adresse: 'Engvej 28, 7100 Vejle', by: 'Vejle', telefon: '86 99 00 11', email: 'camilla@eksempel.dk', status: 'Accepteret', statusDato: '2026-10-29T08:45', indsendt: '2026-10-25T19:02', ting: ['1 × Kommode', '1 × Reol', '1 × Skrivebord'], seneste: '2026-11-08', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: '', note: '', dato: '', fotos: ['kommode','reol','bord','kommode-hvid','reol-hvid'] },
+    { id: 14, navn: 'Niels Pedersen', adresse: 'Bakkevej 2, 3400 Hillerød', by: 'Hillerød', telefon: '97 00 11 22', email: '', status: 'Planlagt', statusDato: '2026-10-27T11:00', indsendt: '2026-10-19T13:22', ting: ['1 × Sofa', '1 × Lænestol'], seneste: '2026-11-03', gadeplan: 'Ja', elevator: '', kontakt: 'Opkald', kommentar: '', note: 'Aftalt med Niels – han er hjemme hele dagen.', dato: '31-10-2026 kl. 09.00–12.00', fotos: ['sofa','stol','sofa-side','stol-trae','sofa-graa'] },
+    { id: 15, navn: 'Anja Winther', adresse: 'Strandvejen 110, 2900 Hellerup', by: 'Hellerup', telefon: '28 13 24 35', email: 'anja@eksempel.dk', status: 'Planlagt', statusDato: '2026-10-28T16:10', indsendt: '2026-10-21T08:55', ting: ['2 × Reoler', '1 × Spisebord', '4 × Stole'], seneste: '2026-11-10', gadeplan: 'Nej', elevator: 'Ja', kontakt: 'E-mail', kommentar: 'Porttelefon virker ikke – ring på mobilen.', note: '', dato: '03-11-2026 kl. 13.00–16.00', fotos: ['reol','reol-hvid','bord','stole-bord','stol'] },
+    { id: 16, navn: 'Lars Holm', adresse: 'Møllevej 6, 8600 Silkeborg', by: 'Silkeborg', telefon: '39 24 35 46', email: '', status: 'Planlagt', statusDato: '2026-10-29T09:30', indsendt: '2026-10-24T11:11', ting: ['1 × Hjørnesofa'], seneste: '2026-11-07', gadeplan: 'Ja', elevator: '', kontakt: 'SMS', kommentar: 'Sofaen er i to dele.', note: '', dato: '03-11-2026 kl. 09.00–12.00', fotos: ['sofa-graa','sofa','sofa-side','sofa-laeder','sofa-roed'] },
+    { id: 17, navn: 'Pia Larsen', adresse: 'Skovvej 19, 4000 Roskilde', by: 'Roskilde', telefon: '40 35 46 57', email: 'pia@eksempel.dk', status: 'Afhentet', statusDato: '2026-10-24T10:40', indsendt: '2026-10-12T15:30', ting: ['1 × Sofa', '1 × Kommode'], seneste: '2026-10-26', gadeplan: 'Ja', elevator: '', kontakt: 'E-mail', kommentar: '', note: 'Hentet fredag. Kommoden er sat til salg.', dato: '24-10-2026 kl. 09.00–12.00', fotos: ['sofa','kommode','sofa-side','kommode-hvid','sofa-graa'] },
+    { id: 18, navn: 'Ole Kristensen', adresse: 'Jernbanegade 33, 6700 Esbjerg', by: 'Esbjerg', telefon: '51 46 57 68', email: '', status: 'Afhentet', statusDato: '2026-10-20T13:15', indsendt: '2026-10-08T09:20', ting: ['6 × Stole'], seneste: '2026-10-22', gadeplan: 'Ja', elevator: '', kontakt: 'Opkald', kommentar: 'Stolene er stabelbare.', note: '', dato: '20-10-2026 kl. 13.00–16.00', fotos: ['stol','stol-trae','stol','stole-bord','stol-trae'] },
+    { id: 19, navn: 'Mette Sørensen', adresse: 'Lindevej 12, 5800 Nyborg', by: 'Nyborg', telefon: '62 57 68 79', email: 'mette@eksempel.dk', status: 'Afvist', statusDato: '2026-10-22T14:00', indsendt: '2026-10-18T20:45', ting: ['1 × Sovesofa'], seneste: '2026-10-25', gadeplan: 'Nej', elevator: 'Nej', kontakt: 'SMS', kommentar: 'Mekanismen er lidt stram.', note: 'Afvist – vi tager ikke sovesofaer med defekt mekanisme.', dato: '', fotos: ['sofa-side','sofa','sofa-graa','sofa-roed','sofa-laeder'] },
+    { id: 20, navn: 'Jesper Nygaard', adresse: 'Parkvej 8, 7400 Herning', by: 'Herning', telefon: '73 68 79 80', email: '', status: 'Afvist', statusDato: '2026-10-15T11:25', indsendt: '2026-10-11T07:50', ting: ['1 × Reol', '1 × Skab'], seneste: '2026-10-18', gadeplan: 'Nej', elevator: 'Nej', kontakt: 'Opkald', kommentar: 'Skabet er 2,4 m højt.', note: 'For stort til varevognen – henvist til Herning afdeling.', dato: '', fotos: ['reol','reol-hvid','kommode','reol','kommode-hvid'] }
+  ];
+  var STATUS_CLS = { 'Ny': 'ny', 'Accepteret': 'accepteret', 'Planlagt': 'planlagt', 'Afhentet': 'afhentet', 'Afvist': 'afvist' };
+  var GRUPPE = { igang: ['Ny', 'Accepteret', 'Planlagt'], nye: ['Ny'], accepteret: ['Accepteret'], planlagt: ['Planlagt'], afsluttede: ['Afhentet', 'Afvist'] };
+  var filter = 'igang', aktiv = null;
+  var MDR = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+
+  function $(id) { return document.getElementById(id); }
+  // Fotos fra Unsplash (Unsplash License – fri brug). Indlæses fra nettet.
+  function U(id) { return 'https://images.unsplash.com/' + id + '?w=800&q=70&auto=format&fit=crop'; }
+  var ILL = {
+    'sofa':      { alt: 'Grøn stofsofa', src: U('photo-1555041469-a586c61ea9bc') },
+    'sofa-side': { alt: 'Beige sofa med puder', src: U('photo-1775029676739-86443af4010d') },
+    'sofa-graa': { alt: 'Grå sofa med puder', src: U('photo-1698936061086-2bf99c7b9fc5') },
+    'sofa-laeder': { alt: 'Brun lædersofa', src: U('photo-1573866926487-a1865558a9cf') },
+    'sofa-roed': { alt: 'Rød stofsofa', src: U('photo-1567016432779-094069958ea5') },
+    'stol':      { alt: 'Grå polstret stol', src: U('photo-1598300042247-d088f8ab3a91') },
+    'stol-trae': { alt: 'Træstol', src: U('photo-1506439773649-6e0eb8cfb237') },
+    'stole-bord': { alt: 'Spisebord med stole', src: U('photo-1617806118233-18e1de247200') },
+    'bord':      { alt: 'Spisebord i træ', src: U('photo-1758977403865-f79e156415b3') },
+    'bord-sort': { alt: 'Sort spisebordssæt', src: U('photo-1547062200-f195b1c77e30') },
+    'kommode':   { alt: 'Kommode i træ', src: U('photo-1579283111509-855c7eea1c49') },
+    'kommode-hvid': { alt: 'Kommode med vase', src: U('photo-1719035271030-c4f941639aaf') },
+    'reol':      { alt: 'Reol med bøger', src: U('photo-1593430980369-68efc5a5eb34') },
+    'reol-hvid': { alt: 'Hvid reol', src: U('photo-1780672823738-2a8d15d79aaf') }
+  };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function dagSiden(iso) {
+    var d = Math.round((NU - new Date(iso)) / 864e5);
+    return d <= 0 ? 'I dag' : d === 1 ? '1 dag siden' : d + ' dage siden';
+  }
+  function datoTekst(iso, medTid) {
+    var d = new Date(iso);
+    var s = d.getDate() + '. ' + MDR[d.getMonth()] + ' ' + d.getFullYear();
+    if (medTid) s += ' kl. ' + ('0' + d.getHours()).slice(-2) + '.' + ('0' + d.getMinutes()).slice(-2);
+    return s;
+  }
+  function frist(r) {
+    if (r.status !== 'Ny') return '';
+    var d = Math.round((new Date(r.seneste) - NU) / 864e5);
+    if (d < 0) return 'Fristen er overskredet';
+    if (d === 0) return 'Skal hentes i dag';
+    return 'Skal hentes inden ' + d + (d === 1 ? ' dag' : ' dage');
+  }
+  function planlagtTekst(r) {
+    var m = r.dato && r.dato.match(/^(\d{2})-(\d{2})-(\d{4})(?: kl\. (\d{2})\.(\d{2})–(\d{2})\.(\d{2}))?/);
+    if (!m) return 'Planlagt – dato ikke valgt';
+    var t = m[1] + '.' + m[2] + '.' + m[3].slice(2);
+    if (m[4]) t += ' kl. ' + (+m[4]) + (m[5] !== '00' ? '.' + m[5] : '') + '–' + (+m[6]) + (m[7] !== '00' ? '.' + m[7] : '');
+    return 'Planlagt ' + t;
+  }
+  function info(r) {
+    switch (r.status) {
+      case 'Ny': return 'Modtaget ' + dagSiden(r.indsendt).toLowerCase();
+      case 'Accepteret': return 'Accepteret ' + dagSiden(r.statusDato || r.indsendt).toLowerCase();
+      case 'Planlagt': return esc(planlagtTekst(r));
+      case 'Afhentet': return 'Afhentet ' + dagSiden(r.statusDato || r.indsendt).toLowerCase();
+      case 'Afvist': return 'Afvist ' + dagSiden(r.statusDato || r.indsendt).toLowerCase();
+    }
+    return '';
+  }
+  function saetStatus(r, status) { if (r.status !== status) { r.status = status; r.statusDato = NU.toISOString().slice(0, 16); } }
+  function badge(status) { return '<span class="da-status da-status--' + STATUS_CLS[status] + '">' + esc(status) + '</span>'; }
+  function tingKort(r) { var t = r.ting.slice(0, 2).join(', '); return r.ting.length > 2 ? t + ' + ' + (r.ting.length - 2) + ' mere' : t; }
+
+  function synlige() {
+    return rows.filter(function (r) {
+      if (GRUPPE[filter].indexOf(r.status) < 0) return false;
+      return true;
+    });
+  }
+
+  function render() {
+    var liste = synlige(), tb = $('da-rows'), html = '';
+    liste.forEach(function (r) {
+      var f = frist(r);
+      html += '<tr data-id="' + r.id + '" tabindex="0">' +
+        '<td data-label="Donor"><span class="da-navn">' + esc(r.navn) + '</span><span class="da-sub">' + esc(r.adresse.split(',')[0]) + '</span><span class="da-sub">Tlf. ' + esc(r.telefon) + '</span></td>' +
+        '<td data-label="Møbler">' + esc(tingKort(r)) + (r.fotos.length ? '<span class="da-sub">' + r.fotos.length + (r.fotos.length === 1 ? ' billede' : ' billeder') + '</span>' : '') + '</td>' +
+        '<td data-label="Info">' + info(r) + '</td>' +
+        '<td data-label="Status"><label for="st-' + r.id + '" style="position:absolute;left:-9999px">Status for ' + esc(r.navn) + '</label><select class="rk-select da-st da-st--' + STATUS_CLS[r.status] + '" id="st-' + r.id + '" data-status="' + r.id + '">' +
+          ['Ny','Accepteret','Planlagt','Afhentet','Afvist'].map(function (s) { return '<option' + (s === r.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></td>' +
+        '<td data-label="Note"><div class="da-note' + (r.note ? '' : ' da-note--tom') + '">' + (r.note ? esc(r.note) : 'Tilføj note') + '</div></td>' +
+        '<td class="da-actions"><a href="#" class="rk-btn rk-btn--tertiary rk-btn--small" data-open="' + r.id + '">Åbn</a></td></tr>';
+    });
+    tb.innerHTML = html;
+    $('da-empty').hidden = liste.length > 0;
+    var nye = rows.filter(function (r) { return r.status === 'Ny'; }).length;
+    $('da-summary').textContent = rows.length + ' anmodninger · ' + nye + (nye === 1 ? ' ny' : ' nye');
+  }
+
+  function aabn(id) {
+    var r = rows.filter(function (x) { return x.id === id; })[0]; if (!r) return;
+    aktiv = r;
+    $('da-modal-titel').textContent = 'Anmodning fra ' + r.navn;
+    $('dm-meta').textContent = 'Modtaget ' + dagSiden(r.indsendt).toLowerCase();
+    $('dm-navn').textContent = r.navn;
+    $('dm-adresse').textContent = r.adresse;
+    $('dm-tlf').textContent = r.telefon; $('dm-tlf').href = 'tel:' + r.telefon.replace(/\s/g, '');
+    $('dm-mail-row').hidden = !r.email;
+    $('dm-mail').textContent = r.email; $('dm-mail').href = 'mailto:' + r.email;
+    $('dm-ting').innerHTML = r.ting.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
+    $('dm-seneste').textContent = datoTekst(r.seneste);
+    $('dm-gadeplan').textContent = r.gadeplan;
+    $('dm-elevator-row').hidden = !r.elevator; $('dm-elevator').textContent = r.elevator;
+    $('dm-kontakt').textContent = r.kontakt;
+    $('dm-butik').textContent = 'Røde Kors Genbrug ' + r.by;
+    $('dm-kommentar-row').hidden = !r.kommentar; $('dm-kommentar').textContent = r.kommentar;
+    $('dm-indsendt').textContent = datoTekst(r.indsendt, true);
+    $('dm-photos').innerHTML = r.fotos.map(function (f, i) { return '<button type="button" class="da-photo" data-foto="' + i + '" aria-label="Vis billede ' + (i + 1) + ' af ' + r.fotos.length + ' stort"><img src="' + ILL[f].src + '" alt="Billede ' + (i + 1) + ' fra donor: ' + ILL[f].alt + '"></button>'; }).join('');
+    $('dm-status').value = r.status; $('dm-status').className = 'rk-select da-st da-st--' + STATUS_CLS[r.status]; opdaterNaeste(r.status);
+    $('dm-dato').value = r.dato;
+    $('dm-note').value = r.note;
+    $('da-backdrop').hidden = false;
+    document.body.style.overflow = 'hidden';
+    $('da-close').focus();
+  }
+  function luk() { $('da-backdrop').hidden = true; document.body.style.overflow = ''; aktiv = null; }
+  function toast(t, ms) { var el = $('da-toast'); el.textContent = t; el.hidden = false; clearTimeout(el._t); el._t = setTimeout(function () { el.hidden = true; }, ms || 2500); }
+  function gem(status, besked) {
+    if (!aktiv) return;
+    saetStatus(aktiv, status || $('dm-status').value); aktiv.dato = $('dm-dato').value;
+    aktiv.note = $('dm-note').value;
+    render(); luk(); toast(besked || 'Anmodningen er gemt.', besked ? 5000 : 2500);
+  }
+
+  $('da-toggle').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    filter = b.dataset.filter;
+    Array.prototype.forEach.call(this.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    render();
+  });
+  $('da-rows').addEventListener('change', function (e) {
+    var id = e.target.dataset.status; if (!id) return;
+    saetStatus(rows.filter(function (r) { return r.id === +id; })[0], e.target.value); render(); toast('Status er opdateret.');
+  });
+  $('da-rows').addEventListener('click', function (e) {
+    if (e.target.closest('select') || e.target.closest('label')) return;
+    var tr = e.target.closest('tr'); if (!tr) return;
+    e.preventDefault(); aabn(+tr.dataset.id);
+  });
+  $('da-rows').addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.tagName === 'TR') { e.preventDefault(); aabn(+e.target.dataset.id); }
+  });
+  // ---- Datovælger ----
+  var dp = { visning: new Date(NU.getFullYear(), NU.getMonth(), 1), valgt: null, mode: 'afhentning' };
+  var DAGE_KORT = ['ma','ti','on','to','fr','lø','sø'];
+  (function () {
+    var opts = ''; for (var h = 7; h <= 20; h++) { ['00','30'].forEach(function (m) { if (h === 20 && m === '30') return; var t = ('0' + h).slice(-2) + '.' + m; opts += '<option value="' + t + '">' + t + '</option>'; }); }
+    $('dp-fra').innerHTML = opts; $('dp-til').innerHTML = opts; $('dp-fra').value = '09.00'; $('dp-til').value = '12.00';
+  })();
+  function dpTegn() {
+    var y = dp.visning.getFullYear(), m = dp.visning.getMonth();
+    $('dp-maaned').textContent = MDR[m].charAt(0).toUpperCase() + MDR[m].slice(1) + ' ' + y;
+    var first = new Date(y, m, 1), offset = (first.getDay() + 6) % 7, antal = new Date(y, m + 1, 0).getDate(), html = '';
+    for (var i = 0; i < offset; i++) html += '<span></span>';
+    var idag = new Date(NU.getFullYear(), NU.getMonth(), NU.getDate());
+    for (var d = 1; d <= antal; d++) {
+      var dato = new Date(y, m, d), er = dato < idag, valgt = dp.valgt && dato.getTime() === dp.valgt.getTime(), erIdag = dato.getTime() === idag.getTime();
+      var noegle = y + '-' + ('0' + (m + 1)).slice(-2) + '-' + ('0' + d).slice(-2), har = dp.mode === 'koereplan' && planlagteDatoer()[noegle];
+      if (dp.mode === 'koereplan') er = false;
+      html += '<button type="button" class="da-cal__dag' + (valgt ? ' da-cal__dag--valgt' : '') + (erIdag ? ' da-cal__dag--idag' : '') + (har ? ' da-cal__dag--har' : '') + '" data-dag="' + d + '"' + (er ? ' disabled' : '') + ' aria-pressed="' + (valgt ? 'true' : 'false') + '" aria-label="' + d + '. ' + MDR[m] + ' ' + y + (har ? ', ' + har + (har === 1 ? ' planlagt afhentning' : ' planlagte afhentninger') : '') + '">' + d + '</button>';
+    }
+    $('dp-dage').innerHTML = html;
+  }
+  function planlagteDatoer() { var m = {}; rows.forEach(function (r) { if (r.status === 'Planlagt') { var k = datoNoegle(r); if (k) m[k] = (m[k] || 0) + 1; } }); return m; }
+  function dpAabn(mode) {
+    dp.mode = mode === 'koereplan' ? 'koereplan' : 'afhentning'; dp.valgt = null;
+    var felt = $(dp.mode === 'koereplan' ? 'kp-dato' : 'dm-dato');
+    var mt = felt.value.match(/^(\d{2})-(\d{2})-(\d{4})(?: kl\. (\d{2}\.\d{2})–(\d{2}\.\d{2}))?/);
+    if (mt) { dp.valgt = new Date(+mt[3], +mt[2] - 1, +mt[1]); dp.visning = new Date(+mt[3], +mt[2] - 1, 1); if (mt[4]) { $('dp-fra').value = mt[4]; $('dp-til').value = mt[5]; } }
+    else { dp.visning = new Date(NU.getFullYear(), NU.getMonth(), 1); }
+    $('dp-titel').textContent = dp.mode === 'koereplan' ? 'Vælg køredato' : 'Planlæg afhentning';
+    $('dp-tid').hidden = dp.mode === 'koereplan'; $('dp-hint').hidden = dp.mode !== 'koereplan';
+    $('dp-ryd').textContent = dp.mode === 'koereplan' ? 'Vis alle' : 'Ryd';
+    $('dp-fejl').hidden = true; dpTegn(); $('dp-backdrop').hidden = false; $('dp-next').focus();
+  }
+  function dpLuk() { $('dp-backdrop').hidden = true; $(dp.mode === 'koereplan' ? 'kp-dato' : 'dm-dato').focus(); }
+  function dpVaelg() {
+    if (!dp.valgt) { $('dp-fejl').textContent = 'Vælg en dato i kalenderen.'; $('dp-fejl').hidden = false; return; }
+    var d = dp.valgt, dato = ('0' + d.getDate()).slice(-2) + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear();
+    if (dp.mode === 'koereplan') { $('kp-dato').value = dato; kpTegnListe(); dpLuk(); return; }
+    if ($('dp-til').value <= $('dp-fra').value) { $('dp-fejl').textContent = 'Sluttidspunktet skal være efter starttidspunktet.'; $('dp-fejl').hidden = false; return; }
+    $('dm-dato').value = dato + ' kl. ' + $('dp-fra').value + '–' + $('dp-til').value;
+    if ($('dm-status').value !== 'Planlagt') { $('dm-status').value = 'Planlagt'; $('dm-status').dispatchEvent(new Event('change')); }
+    dpLuk();
+  }
+  $('dm-dato').addEventListener('click', function () { dpAabn('afhentning'); });
+  $('dm-dato').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dpAabn('afhentning'); } });
+  $('kp-dato').addEventListener('click', function () { dpAabn('koereplan'); });
+  $('kp-dato').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dpAabn('koereplan'); } });
+  $('dp-prev').addEventListener('click', function () { dp.visning = new Date(dp.visning.getFullYear(), dp.visning.getMonth() - 1, 1); dpTegn(); });
+  $('dp-next').addEventListener('click', function () { dp.visning = new Date(dp.visning.getFullYear(), dp.visning.getMonth() + 1, 1); dpTegn(); });
+  $('dp-dage').addEventListener('click', function (e) { var b = e.target.closest('.da-cal__dag'); if (!b || b.disabled) return; dp.valgt = new Date(dp.visning.getFullYear(), dp.visning.getMonth(), +b.dataset.dag); $('dp-fejl').hidden = true; dpTegn(); });
+  $('dp-ok').addEventListener('click', function (e) { e.preventDefault(); dpVaelg(); });
+  $('dp-ryd').addEventListener('click', function (e) { e.preventDefault(); if (dp.mode === 'koereplan') { $('kp-dato').value = ''; kpTegnListe(); } else { $('dm-dato').value = ''; } dpLuk(); });
+  $('dp-fra').addEventListener('change', function () { $('dp-fejl').hidden = true; });
+  $('dp-til').addEventListener('change', function () { $('dp-fejl').hidden = true; });
+  $('dp-close').addEventListener('click', dpLuk);
+  $('dp-backdrop').addEventListener('click', function (e) { if (e.target === this) dpLuk(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('dp-backdrop').hidden) { e.stopImmediatePropagation(); dpLuk(); } }, true);
+
+  // ---- Køreplan ----
+  function datoNoegle(r) { var m = r.dato && r.dato.match(/^(\d{2})-(\d{2})-(\d{4})/); return m ? m[3] + '-' + m[2] + '-' + m[1] : ''; }
+  function tidsrum(r) { var m = r.dato && r.dato.match(/kl\. (\d{2}\.\d{2})–(\d{2}\.\d{2})/); return m ? 'kl. ' + m[1] + '–' + m[2] : 'tidspunkt ikke valgt'; }
+  function kpNoegle() { var v = $('kp-dato').value; return v ? v.slice(6, 10) + '-' + v.slice(3, 5) + '-' + v.slice(0, 2) : 'alle'; }
+  function kpRaekker() {
+    var v = kpNoegle();
+    return rows.filter(function (r) { return r.status === 'Planlagt' && (v === 'alle' || datoNoegle(r) === v); })
+      .sort(function (a, b) { return (datoNoegle(a) + tidsrum(a)).localeCompare(datoNoegle(b) + tidsrum(b)); });
+  }
+  function kpKort(r) {
+    var felter = [['Telefon', r.telefon], ['E-mail', r.email], ['Møbler', r.ting.join(', ')],
+      ['Står i gadeplan', r.gadeplan], ['Elevator', r.elevator], ['Kontakt via', r.kontakt], ['Butik', 'Røde Kors Genbrug ' + r.by],
+      ['Afhentes senest', datoTekst(r.seneste)], ['Donors kommentar', r.kommentar], ['Note', r.note], ['Indsendt', datoTekst(r.indsendt, true)]];
+    var dato = datoNoegle(r) ? r.dato.slice(0, 10) : 'Dato ikke valgt';
+    return '<article class="da-kp"><div class="da-kp__top"><div><h3>' + esc(r.navn) + '</h3><p class="da-kp__adresse">' + esc(r.adresse) + '</p></div>' +
+      '<div class="da-kp__tid"><strong>' + esc(dato) + '</strong><span>' + esc(tidsrum(r)) + '</span></div></div><dl>' +
+      felter.filter(function (f) { return f[1]; }).map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join('') + '</dl></article>';
+  }
+  function kpTegnListe() {
+    var liste = kpRaekker();
+    $('kp-liste').innerHTML = liste.length ? '<p class="da-kp__antal">' + liste.length + (liste.length === 1 ? ' afhentning' : ' afhentninger') + '</p>' + liste.map(kpKort).join('')
+      : '<p class="da-empty">Ingen planlagte afhentninger på den valgte dato.</p>';
+    $('kp-print').classList.toggle('rk-btn--disabled', !liste.length);
+  }
+  function kpAabn(e) {
+    e.preventDefault();
+    var keys = Object.keys(planlagteDatoer()).sort(), idag = NU.toISOString().slice(0, 10), forst = keys.filter(function (k) { return k >= idag; })[0];
+    $('kp-dato').value = forst ? forst.slice(8, 10) + '-' + forst.slice(5, 7) + '-' + forst.slice(0, 4) : '';
+    kpTegnListe(); $('kp-backdrop').hidden = false; document.body.style.overflow = 'hidden'; $('kp-dato').focus();
+  }
+  function kpLuk() { $('kp-backdrop').hidden = true; document.body.style.overflow = ''; $('da-print-aabn').focus(); }
+  $('da-print-aabn').addEventListener('click', kpAabn);
+  $('kp-close').addEventListener('click', kpLuk);
+  $('kp-backdrop').addEventListener('click', function (e) { if (e.target === this) kpLuk(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('kp-backdrop').hidden) { e.stopImmediatePropagation(); kpLuk(); } }, true);
+  $('kp-print').addEventListener('click', function (e) {
+    e.preventDefault();
+    var liste = kpRaekker(); if (!liste.length) return;
+    var v = $('kp-dato').value, titel = v ? 'Køredato ' + v : 'Alle planlagte afhentninger';
+    $('da-print').innerHTML = '<h1>Køreplan – Røde Kors Genbrug</h1><p>' + titel + ' · ' + liste.length + (liste.length === 1 ? ' afhentning' : ' afhentninger') + ' · udskrevet ' + datoTekst(NU.toISOString().slice(0, 16), true) + '</p>' + liste.map(kpKort).join('');
+    window.print();
+  });
+
+  var lbIndex = 0;
+  function lbVis(i) {
+    if (!aktiv) return;
+    var n = aktiv.fotos.length; lbIndex = (i + n) % n;
+    var f = ILL[aktiv.fotos[lbIndex]];
+    $('lb-img').src = f.src; $('lb-img').alt = f.alt;
+    $('lb-caption').textContent = (lbIndex + 1) + ' af ' + n + ' · ' + f.alt;
+    $('lb-prev').disabled = n < 2; $('lb-next').disabled = n < 2;
+  }
+  function lbAabn(i) { lbVis(i); $('da-lightbox').hidden = false; $('lb-next').focus(); }
+  function lbLuk() { $('da-lightbox').hidden = true; var k = $('da-modal').querySelector('.da-photo[data-foto="' + lbIndex + '"]'); if (k) k.focus(); }
+  $('dm-photos').addEventListener('click', function (e) { var b = e.target.closest('.da-photo'); if (b) lbAabn(+b.dataset.foto); });
+  $('lb-prev').addEventListener('click', function () { lbVis(lbIndex - 1); });
+  $('lb-next').addEventListener('click', function () { lbVis(lbIndex + 1); });
+  $('lb-close').addEventListener('click', lbLuk);
+  $('da-lightbox').addEventListener('click', function (e) { if (e.target === this) lbLuk(); });
+  document.addEventListener('keydown', function (e) {
+    if ($('da-lightbox').hidden) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); lbVis(lbIndex - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); lbVis(lbIndex + 1); }
+    else if (e.key === 'Escape') { e.stopImmediatePropagation(); lbLuk(); }
+  }, true);
+  $('da-close').addEventListener('click', luk);
+  $('da-backdrop').addEventListener('click', function (e) { if (e.target === this) luk(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !$('da-backdrop').hidden) luk(); });
+  $('dm-gem').addEventListener('click', function (e) { e.preventDefault(); gem(); });
+  var NAESTE = {
+    'Ny': { tekst: 'Vælg, hvad der skal ske med anmodningen. Accepter den, hvis I kan hente møblerne, eller afvis den, hvis de ikke kan bruges.', accepter: true, afvis: true },
+    'Accepteret': { tekst: 'Når du har aftalt en afhentning med donor, så indtast den under Planlagt afhentning.', accepter: false, afvis: true },
+    'Planlagt': { tekst: 'Afvis anmodningen, hvis noget gik galt under afhentning.', accepter: false, afvis: true }
+  };
+  function opdaterNaeste(status) {
+    var n = NAESTE[status];
+    $('dm-naeste').hidden = !n; if (!n) return;
+    $('dm-naeste-tekst').textContent = n.tekst;
+    $('dm-accepter').hidden = !n.accepter; $('dm-afvis').hidden = !n.afvis;
+  }
+  $('dm-status').addEventListener('change', function () { this.className = 'rk-select da-st da-st--' + STATUS_CLS[this.value]; opdaterNaeste(this.value); });
+  $('dm-accepter').addEventListener('click', function (e) { e.preventDefault(); gem('Accepteret', 'Donationen er accepteret. Donoren får automatisk besked'); });
+  $('dm-afvis').addEventListener('click', function (e) { e.preventDefault(); gem('Afvist', 'Donationen er afvist. Donoren får automatisk besked'); });
+
+  render();
+})();
+</script>
+
+</main>
+
+</body>
+</html>
