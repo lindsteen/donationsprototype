@@ -17,6 +17,7 @@ Redesign af GivVidere-appen (bestil afhentning af møbler / aflevér selv) i rod
 | `output/trin3.html` | Formular, trin 3: Hvem skal vi kontakte? (navn, adresse, telefon) |
 | `output/kvittering.html` | Kvittering efter bestilling |
 | `output/aflever-selv.html` | Aflevér selv: find en butik |
+| `output/automatiske-mails.html` | De automatiske mails til donoren ved accept og afvisning |
 | `output/admin.html` | Admin-siden "Donationer til genbrug" (tabel, modal, datovælger, køreplan) |
 | `afhentninger-admin.html` | Samme som `output/admin.html` – arbejdsfilen, der bygges af rk-ui-design-skill'en |
 | `Anmodninger om afhentning-html.zip` | Første eksport fra Claude Design (29/10) – kun til reference |
@@ -29,6 +30,7 @@ Formular og admin er prototyper med testdata: der sendes ikke noget nogen steder
 
 ### 2026-11-06
 
+- Kvittering: ny tekst fra "Donationssystem - tekster.docx". Ny fil `automatiske-mails.html` viser mails ved accept og afvisning.
 - Uploadet til `lindsteen/donationsprototype` (GitHub Pages). Forsiden er nu formularen; admin er flyttet til `/admin.html`.
 - Formularen er responsiv: fra 768 px går header og footer i fuld bredde, indholdet står i en centreret kolonne (maks. 760 px), og knapperne står nederst til højre. Mobilvisningen er uændret.
 - Formularen: Støt-knappen og burgermenuen i headeren er fjernet.
