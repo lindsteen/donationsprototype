@@ -6,13 +6,14 @@ Redesign af GivVidere-appen (bestil afhentning af møbler / aflevér selv) i rod
 - Prototyper (Claude Design-lærreder):
   - "GivVidere – Bestil afhentning" – donorens webformular, 5 skærme (trin 1–3, kvittering, aflevér selv)
   - "Donationer til genbrug - backend" – admin-siden (tidligere "GivVidere – Admin")
-- Live: https://lindsteen.github.io/donationsprototype/ (repo `lindsteen/donationsprototype`). Filerne fra `output/` ligger i roden: formularen er forsiden, admin er `/admin.html`.
+- Live: https://lindsteen.github.io/donationsprototype/ (repo `lindsteen/donationsprototype`). Forsiden samler formular, admin og auto-mails med navigation i toppen; filerne fra `output/` ligger i roden.
 
 ## Filer
 
 | Fil | Indhold |
 | --- | --- |
-| `output/index.html` | Formular, trin 1: Hvad vil du donere? (tæller pr. møbeltype) |
+| `output/index.html` | Samlet visning med navigation: Webformular, Admin backend og Auto-mails. Bygges med `python byg_samlet.py output`, når en anden fil i `output/` er ændret |
+| `output/trin1.html` | Formular, trin 1: Hvad vil du donere? (tæller pr. møbeltype) |
 | `output/trin2.html` | Formular, trin 2: Hvornår kan vi hente? (dato, gadeplan, billeder, kommentar) |
 | `output/trin3.html` | Formular, trin 3: Hvem skal vi kontakte? (navn, adresse, telefon) |
 | `output/kvittering.html` | Kvittering efter bestilling |
@@ -30,6 +31,7 @@ Formular og admin er prototyper med testdata: der sendes ikke noget nogen steder
 
 ### 2026-11-06
 
+- Ny `index.html` samler formular, admin og auto-mails i én fil med smal, mørk navigation. Formularens trin 1 hedder nu `trin1.html`.
 - Kvittering: ny tekst fra "Donationssystem - tekster.docx". Ny fil `automatiske-mails.html` viser mails ved accept og afvisning.
 - Uploadet til `lindsteen/donationsprototype` (GitHub Pages). Forsiden er nu formularen; admin er flyttet til `/admin.html`.
 - Formularen er responsiv: fra 768 px går header og footer i fuld bredde, indholdet står i en centreret kolonne (maks. 760 px), og knapperne står nederst til højre. Mobilvisningen er uændret.
